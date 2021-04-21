@@ -3,21 +3,16 @@ import { Link } from "react-router-dom";
 
 import { Context } from "../store/appContext";
 
-export const AudioGallery = () => {
+export const AudioCard = () => {
 	const { store, actions } = useContext(Context);
-
-	useEffect(() => {
-		actions.getBirds();
-	}, []);
 
 	return (
 		<div className="container">
 			{!store.isPending ? (
 				<div>
-					{/* {store.people.map((character, index) => {
-						return <CharacterCard key={index} character={character} id={index} />;
-					})} */}
-					{actions.getSounds()}
+					<div>
+                        AudioCard
+					</div>
 					<hr />
 				</div>
 			) : (
