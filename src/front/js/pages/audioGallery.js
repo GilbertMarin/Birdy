@@ -16,6 +16,8 @@ export const AudioGallery = () => {
 				<div>
 					<div>
 						<h1>{store.birdsRaw[0].en}</h1>
+						<h1>{store.birdsRaw[50].en}</h1>
+						<h1>{store.birdsRaw[100].en}</h1>
 					</div>
 					<hr />
 				</div>

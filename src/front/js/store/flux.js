@@ -5,16 +5,24 @@ const getState = ({ getStore, getActions, setStore }) => {
 			isPending: true,
 			error: null,
 			birdsRaw: [],
-			url: "https://www.xeno-canto.org/api/2/recordings?query=cnt%3A%22Costa%20Rica%22"
+			url: "https://www.xeno-canto.org/api/2/recordings?query=cnt%3A%22Costa%20Rica%22",
+			heroku: "https://protected-lake-68106.herokuapp.com/"
 		},
 		actions: {
 			// Use getActions to call a function within a fuction
 
 			getBirds: () => {
 				const store = getStore();
-				fetch(
-					"https://ancient-dawn-35862.herokuapp.com/https://www.xeno-canto.org/api/2/recordings?query=cnt%3A%22Costa%20Rica%22"
-				)
+				const opts = {
+					method: "GET",
+					headers: {
+						"Content-Type": "application/json",
+						Accept: "application/json",
+						"Access-Control-Allow-Origin": "https://3000-rose-crawdad-cy57d9h8.ws-us03.gitpod.io",
+						"Access-Control-Allow-Credentials": "true"
+					}
+				};
+				fetch(store.heroku + store.url)
 					.then(res => {
 						if (!res.ok) {
 							// the "the throw Error will send the erro to the "catch"
