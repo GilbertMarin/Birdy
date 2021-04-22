@@ -7,7 +7,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			birdsRaw: [],
 			birdSounds: [],
 			url: "https://www.xeno-canto.org/api/2/recordings?query=cnt%3A%22Costa%20Rica%22",
-			heroku: "https://protected-lake-68106.herokuapp.com/"
+			heroku: "https://still-ocean-53347.herokuapp.com/"
 		},
 		actions: {
 			// Use getActions to call a function within a fuction
@@ -37,6 +37,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 						// specify on data.recordings for the array
 						//console.log("This came from API XENO-CANTO: ", data.recordings);
 						setStore({ birdsRaw: data.recordings, isPending: false, error: null });
+						getActions().getSounds();
 					})
 					.catch(err => {
 						console.error(err.message);
@@ -57,7 +58,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				//console.log("Sounds on mp3: ", soundsArray);
 				// LINE 60 IS GIVING ERROR
 				//Maximum update depth exceeded. This can happen when a component repeatedly calls setState inside componentWillUpdate or componentDidUpdate. React limits the number of nested updates to prevent infinite loops.
-				//setStore({ birdSounds: soundsArray });
+				setStore({ birdSounds: soundsArray });
 			},
 
 			exampleFunction: () => {
