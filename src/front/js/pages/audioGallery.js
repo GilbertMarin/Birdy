@@ -7,6 +7,7 @@ import { AudioCard } from "../component/audioCard";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
+import Image from "react-bootstrap/Image";
 
 export const AudioGallery = () => {
 	const { store, actions } = useContext(Context);
@@ -22,7 +23,7 @@ export const AudioGallery = () => {
 					<Container>
 						<Row>
 							{store.birdsRaw.length == 0 ? (
-								<div>Loading...</div>
+								<div>Nothing here...</div>
 							) : (
 								store.birdsRaw.map((bird, index) => (
 									<Col xs={12} md={6} lg={4} key={index}>
@@ -40,7 +41,9 @@ export const AudioGallery = () => {
 					</Container>
 				</div>
 			) : (
-				<h2>Loading. . .</h2>
+				<div>
+					<Image src="https://media.giphy.com/media/xTcnSMB8VXjTox23zW/giphy.gif" roundedCircle />
+				</div>
 			)}
 		</div>
 	);
