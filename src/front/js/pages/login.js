@@ -27,13 +27,13 @@ export const Login = () => {
 	const [pass, setPass] = useState("");
 	const history = useHistory();
 
-	const ShowAlert = () => {
-		swal({
+	const ForgotPassord = () => {
+		swal("We going to help you with your password restore", {
 			content: {
 				element: "input",
 				attributes: {
 					placeholder: "Type your Email",
-					type: "password"
+					type: "text"
 				}
 			}
 		});
@@ -134,7 +134,7 @@ export const Login = () => {
 										type="submit"
 										className="btn btn-block forgot"
 										value="Forgot your Password"
-										onClick={() => ShowAlert()}
+										onClick={() => ForgotPassord()}
 									/>
 								</Link>
 							</FormGroup>
