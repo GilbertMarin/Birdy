@@ -36,6 +36,12 @@ export const Login = () => {
 					type: "text"
 				}
 			}
+		}).then(value => {
+			if (value.includes("@") && value.includes(".")) {
+				swal("Nice!", "Please check your email inbox!", "success");
+			} else {
+				swal("oopps!!", "Wrong Email, please verify!", "error");
+			}
 		});
 	};
 
