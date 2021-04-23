@@ -19,12 +19,25 @@ import first from "../../img/primer.jpg";
 import second from "../../img/Segundo.jpg";
 import third from "../../img/tercero.jpg";
 import fourth from "../../img/cuarto.jpg";
+import swal from "sweetalert";
 
 export const Login = () => {
 	const { store, actions } = useContext(Context);
 	const [user, setUser] = useState("");
 	const [pass, setPass] = useState("");
 	const history = useHistory();
+
+	const ShowAlert = () => {
+		swal({
+			content: {
+				element: "input",
+				attributes: {
+					placeholder: "Type your Email",
+					type: "password"
+				}
+			}
+		});
+	};
 
 	// useEffect(() => {
 	// 	actions.getToken();
@@ -113,6 +126,16 @@ export const Login = () => {
 							<FormGroup className="mx-sm-4 pb-3 text-center">
 								<Link to="/register">
 									<input type="submit" className="btn btn-block register" value="Register" />
+								</Link>
+							</FormGroup>
+							<FormGroup className="mx-sm-4 pb-3 text-center">
+								<Link to="">
+									<input
+										type="submit"
+										className="btn btn-block forgot"
+										value="Forgot your Password"
+										onClick={() => ShowAlert()}
+									/>
 								</Link>
 							</FormGroup>
 						</Form>

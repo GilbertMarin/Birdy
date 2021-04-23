@@ -34,3 +34,16 @@ img{
 display:block;
 margin:auto;
 }
+
+.forgot{
+    text-decoration: none; 
+    text-decoration-style: none;
+    text-decoration-line: none;
+    color: white
+}
+
+.forgot:hover{
+    text-decoration: underline;
+    color: blanchedalmond;
+       
+}
