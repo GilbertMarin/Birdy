@@ -8,9 +8,12 @@ import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Image from "react-bootstrap/Image";
+import InputGroup from "react-bootstrap/InputGroup";
+import FormControl from "react-bootstrap/FormControl";
 
 export const AudioGallery = () => {
 	const { store, actions } = useContext(Context);
+	const [search, setSearch] = useState("");
 
 	useEffect(() => {
 		actions.getBirds();
@@ -20,12 +23,26 @@ export const AudioGallery = () => {
 		<div className="container">
 			{!store.isPending ? (
 				<div>
+					<InputGroup className="pb-4">
+						<FormControl
+							placeholder="Search..."
+							value={search}
+							onChange={e => {
+								setSearch(e.target.value);
+							}}
+						/>
+					</InputGroup>
 					<Container>
 						<Row>
-							{store.birdsRaw.length == 0 ? (
-								<div>Nothing here...</div>
-							) : (
-								store.birdsRaw.map((bird, index) => (
+							{store.birdsRaw
+								.filter(bird => {
+									if (search == "") {
+										return bird;
+									} else if (bird.en.toLowerCase().includes(search.toLowerCase())) {
+										return bird;
+									}
+								})
+								.map((bird, index) => (
 									<Col xs={12} md={6} lg={4} key={index}>
 										<AudioCard
 											name={bird.en}
@@ -35,8 +52,7 @@ export const AudioGallery = () => {
 											sound={store.birdSounds[index]}
 										/>
 									</Col>
-								))
-							)}
+								))}
 						</Row>
 					</Container>
 				</div>

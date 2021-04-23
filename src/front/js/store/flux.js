@@ -7,7 +7,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 			birdsRaw: [],
 			birdSounds: [],
 			url: "https://www.xeno-canto.org/api/2/recordings?query=cnt%3A%22Costa%20Rica%22",
-			heroku: "https://still-ocean-53347.herokuapp.com/"
+			url2: "http://www.xeno-canto.org/api/2/recordings?query=cnt%3A%22United%20Kingdom%22",
+			heroku: "https://mighty-plateau-65231.herokuapp.com/"
 		},
 		actions: {
 			// Use getActions to call a function within a fuction
@@ -23,7 +24,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				// 		"Access-Control-Allow-Credentials": "true"
 				// 	}
 				// };
-				fetch(store.heroku + store.url)
+				fetch(store.heroku + store.url2)
 					.then(res => {
 						if (!res.ok) {
 							// the "the throw Error will send the erro to the "catch"
@@ -36,6 +37,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 						// Once you receive the data change the state of isPending and the message vanish
 						// specify on data.recordings for the array
 						//console.log("This came from API XENO-CANTO: ", data.recordings);
+						console.log(data.recordings);
 						setStore({ birdsRaw: data.recordings, isPending: false, error: null });
 						getActions().getSounds();
 					})

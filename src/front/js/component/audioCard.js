@@ -35,16 +35,3 @@ AudioCard.propTypes = {
 	time: PropTypes.string,
 	sound: PropTypes.string
 };
-
-//  <div class="container-fluid">
-//             <div class="row  mb-1">
-//               <div class="col px-0">
-//                 <img src="https://loremflickr.com/320/240?random=1" alt="">
-//               </div>
-//               <div class="col px-1">
-//                 <img src="https://loremflickr.com/320/240?random=2" alt="">
-//               </div>
-//               <div class="col px-0">
-//                 <img src="https://loremflickr.com/320/240?random=3" alt="">
-//               </div>
-//             </div>
