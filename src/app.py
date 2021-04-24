@@ -7,10 +7,16 @@ from flask_migrate import Migrate
 from flask_swagger import swagger
 from flask_cors import CORS
 from api.utils import APIException, generate_sitemap
-from api.models import db
+from api.models import db, User
 from api.routes import api
 from api.admin import setup_admin
 #from models import Person
+
+# JWT EXTENDED
+from flask_jwt_extended import create_access_token
+from flask_jwt_extended import get_jwt_identity
+from flask_jwt_extended import jwt_required
+from flask_jwt_extended import JWTManager
 
 ENV = os.getenv("FLASK_ENV")
 static_file_dir = os.path.join(os.path.dirname(os.path.realpath(__file__)), '../public/')
@@ -24,6 +30,9 @@ else:
     app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:////tmp/test.db"
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config["JWT_SECRET_KEY"] = os.environ.get('JW_TOKEN')  # Change this "super secret" with something else!
+jwt = JWTManager(app)
+
 MIGRATE = Migrate(app, db)
 db.init_app(app)
 
@@ -47,6 +56,30 @@ def sitemap():
     if ENV == "development":
         return generate_sitemap(app)
     return send_from_directory(static_file_dir, 'index.html')
+
+@app.route("/login", methods=["POST"])
+def create_token():
+    email = request.json.get("email")
+    password = request.json.get("password")
+    # Query your User table with username and password
+    user = User.query.filter_by(email=email, password=password).first()
+    if user is None:
+        # The user was not found on the database
+        return jsonify({"msg": "Bad email or password"}), 401
+    
+    # create a new token with the user id inside
+    access_token = create_access_token(identity=user.id)
+    return jsonify(access_token)
+
+@app.route('/users', methods=['GET'])
+def get_users():
+    users = User.getAll()
+    response_body = {
+        "msg": "Hello, this is your GET /users response "
+    }
+
+    return jsonify(users), 200
+
 
 # any other endpoint will try to serve it like a static file
 @app.route('/<path:path>', methods=['GET'])

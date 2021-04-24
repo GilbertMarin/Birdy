@@ -7,7 +7,6 @@ from api.utils import generate_sitemap, APIException
 
 api = Blueprint('api', __name__)
 
-
 @api.route('/hello', methods=['POST', 'GET'])
 def handle_hello():
 
@@ -16,12 +15,3 @@ def handle_hello():
     }
 
     return jsonify(response_body), 200
-
-@api.route('/users', methods=['GET'])
-def get_users():
-    users = User.getAll()
-    response_body = {
-        "msg": "Hello, this is your GET /users response "
-    }
-
-    return jsonify(users), 200
