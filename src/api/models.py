@@ -9,7 +9,7 @@ class User(db.Model):
     is_active = db.Column(db.Boolean(), unique=False, nullable=False)
 
     def __repr__(self):
-        return '<User %r>' % self.username
+        return '<User %r>' % self.email
 
     def serialize(self):
         return {
@@ -17,3 +17,14 @@ class User(db.Model):
             "email": self.email,
             # do not serialize the password, its a security breach
         }
+    
+    def getAll():
+        all_users = User.query.all()
+        all_users = list(map(lambda x: x.serialize(), all_users))
+        return all_users
+
+    # db.session tells the class what database session to use to introspect and determine attribute data types.
+    def deleteUser(id):
+        user = User.query.get(id)
+        db.session.delete(user)
+        db.session.commit()
