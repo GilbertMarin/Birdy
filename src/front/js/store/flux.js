@@ -1,5 +1,10 @@
 const getState = ({ getStore, getActions, setStore }) => {
 	return {
+		// -- INSTRUCTIONS FOR FETCHING FROM XENO-CANTO API --
+		// Heroku app running needed for Authorization Control protocols with the external API
+		// Create a heroku app, log in an run the app, next append it to the beginning of the URL
+		// If herokuApp already created, then run it from console or
+		// go the Heroku Web > into your account > Dashboard > click on the app > an then press on the button that says OPEN
 		store: {
 			message: null,
 			isPending: true,
@@ -7,27 +12,17 @@ const getState = ({ getStore, getActions, setStore }) => {
 			birdsRaw: [],
 			birdSounds: [],
 			url: "https://www.xeno-canto.org/api/2/recordings?query=cnt%3A%22Costa%20Rica%22",
-			url2: "http://www.xeno-canto.org/api/2/recordings?query=cnt%3A%22United%20Kingdom%22",
 			heroku: "https://mighty-plateau-65231.herokuapp.com/"
 		},
 		actions: {
-			// Use getActions to call a function within a fuction
+			// Use getActions() to call a function within a fuction
 
 			getBirds: () => {
 				const store = getStore();
-				// const opts = {
-				// 	method: "GET",
-				// 	headers: {
-				// 		"Content-Type": "application/json",
-				// 		Accept: "application/json",
-				// 		"Access-Control-Allow-Origin": "https://3000-rose-crawdad-cy57d9h8.ws-us03.gitpod.io",
-				// 		"Access-Control-Allow-Credentials": "true"
-				// 	}
-				// };
-				fetch(store.heroku + store.url2)
+				fetch(store.heroku + store.url)
 					.then(res => {
 						if (!res.ok) {
-							// the "the throw Error will send the erro to the "catch"
+							// the "the throw Error will send the error to the "catch"
 							throw Error("Could not fetch the data for that resource");
 						}
 						return res.json();
@@ -57,29 +52,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 					mp3 = arrayDeCadenas[0] + encodeFileName;
 					return mp3;
 				});
-				//console.log("Sounds on mp3: ", soundsArray);
-				// LINE 60 IS GIVING ERROR
-				//Maximum update depth exceeded. This can happen when a component repeatedly calls setState inside componentWillUpdate or componentDidUpdate. React limits the number of nested updates to prevent infinite loops.
+
 				setStore({ birdSounds: soundsArray });
-			},
-
-			exampleFunction: () => {
-				getActions().changeColor(0, "green");
-			},
-
-			changeColor: (index, color) => {
-				//get the store
-				const store = getStore();
-
-				//we have to loop the entire demo array to look for the respective index
-				//and change its color
-				const demo = store.demo.map((elm, i) => {
-					if (i === index) elm.background = color;
-					return elm;
-				});
-
-				//reset the global store
-				setStore({ demo: demo });
 			}
 		}
 	};
