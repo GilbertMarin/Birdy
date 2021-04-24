@@ -7,9 +7,10 @@ from flask_migrate import Migrate
 from flask_swagger import swagger
 from flask_cors import CORS
 from api.utils import APIException, generate_sitemap
-from api.models import db, User
+from api.models import db, User, Bird_Capture
 from api.routes import api
 from api.admin import setup_admin
+from api.service import Service
 #from models import Person
 
 # JWT EXTENDED
@@ -57,6 +58,7 @@ def sitemap():
         return generate_sitemap(app)
     return send_from_directory(static_file_dir, 'index.html')
 
+# Endpoint for validating parameters and decide if return token.
 @app.route("/login", methods=["POST"])
 def create_token():
     email = request.json.get("email")
@@ -71,6 +73,7 @@ def create_token():
     access_token = create_access_token(identity=user.id)
     return jsonify(access_token)
 
+# Endpoint for returning all users.
 @app.route('/users', methods=['GET'])
 def get_users():
     users = User.getAll()
@@ -80,6 +83,19 @@ def get_users():
 
     return jsonify(users), 200
 
+# Endpoint for returning all the captures in the private journal for every user.
+@app.route('/captures', methods=['GET'])
+@jwt_required()
+def get_captures():
+
+    response_body = {
+        "msg": "Hello, this is your GET /captures response "
+    }
+
+    # Access the identity of the current user with get_jwt_identity
+    current_user_id = get_jwt_identity()
+    all_captures = Service.get_captures(current_user_id)
+    return jsonify(all_captures), 200
 
 # any other endpoint will try to serve it like a static file
 @app.route('/<path:path>', methods=['GET'])
