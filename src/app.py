@@ -79,27 +79,43 @@ def add_user():
     # Take the data passed from the front request an turn it into JSON
     request_body = request.get_json()
 
-    # Build a new instance of User, passing the parameters from the request.body
-    user = User(first_name=request_body["first_name"], last_name=request_body["last_name"], email=request_body["email"], password=request_body["password"], is_active=request_body["is_active"])
+    # ----- USER ON DATABASE VALIDATION -----
+    # Get the parameter to validate
+    email = request_body["email"]
 
-    # Append the the instance into the database session of the API
-    db.session.add(user)
-    db.session.commit()
+    # Validating that email doesn't already exist on database
+    user = User.query.filter_by(email=email).first()
 
-    response_body = {
-        "msg": "Hello, this is your POST /register response. Registration succesfully done."
-    }
+    # If user doesn't exist on database then create a new instance
+    if user is None:
 
-    return jsonify(response_body), 200
+        # Build a new instance of User, passing the parameters from the request.body
+        user = User(first_name=request_body["first_name"], last_name=request_body["last_name"], email=request_body["email"], password=request_body["password"], is_active=request_body["is_active"])
 
+        # Append the the instance into the database session of the API
+        db.session.add(user)
+        db.session.commit()
+
+        # Return a response with sucessful status
+        response_body = {
+            "msg": "POST /register response. Registration succesfully done."
+        }
+
+        return jsonify(response_body), 200
+
+
+    # Return a client error response and a comment indicating duplication of email is imposible.
+    return jsonify({"msg": "POST /register response. Email already exist on database."}), 401
+
+    
 # Endpoint for returning all users.
 @app.route('/users', methods=['GET'])
 def get_users():
-    users = User.getAll()
-    response_body = {
-        "msg": "Hello, this is your GET /users response "
-    }
 
+    # Get a list with all the users serialized.
+    users = User.getAll()
+
+    # Return the list of registered users.
     return jsonify(users), 200
 
 # Endpoint for returning data for an specific user.
