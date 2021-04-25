@@ -12,7 +12,11 @@ const getState = ({ getStore, getActions, setStore }) => {
 			birdsRaw: [],
 			birdSounds: [],
 			url: "https://www.xeno-canto.org/api/2/recordings?query=cnt%3A%22Costa%20Rica%22",
-			heroku: "https://mighty-plateau-65231.herokuapp.com/"
+			heroku: "https://mighty-plateau-65231.herokuapp.com/",
+			newURL: "https://3001-chocolate-gecko-u27ii1k9.ws-us03.gitpod.io",
+			login: false,
+			email: "",
+			register: false
 		},
 		actions: {
 			// Use getActions() to call a function within a fuction
@@ -54,6 +58,70 @@ const getState = ({ getStore, getActions, setStore }) => {
 				});
 
 				setStore({ birdSounds: soundsArray });
+			},
+			loginValidation: (user, password) => {
+				const store = getStore();
+
+				fetch(`${store.newURL}/login`, {
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json"
+					},
+					body: JSON.stringify({
+						username: user,
+						password: password
+					})
+				})
+					.then(resp => {
+						return resp.json();
+					})
+					.then(data => {
+						localStorage.setItem("token", data.access_token);
+						setStore({ username: user });
+						console.log(user);
+						window.location.reload();
+					})
+
+					.catch(err => {
+						console.log("error", err);
+					});
+			},
+			getToken: () => {
+				let store = getStore();
+				let token = localStorage.getItem("token");
+
+				if (token && token.length > 0) {
+					setStore({ login: true });
+				} else {
+					setStore({ login: false });
+				}
+			},
+			registerValidation: (firstname, lastname, email, password) => {
+				const store = getStore();
+
+				fetch(`${store.newURL}/register`, {
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json"
+					},
+					body: JSON.stringify({
+						firstname: firstname,
+						lastname: lastname,
+						email: email,
+						password: password,
+						is_active: false
+					})
+				})
+					.then(resp => {
+						return resp.json();
+					})
+					.then(data => {
+						setStore({ register: true });
+					})
+
+					.catch(err => {
+						console.log("error", err);
+					});
 			}
 		}
 	};
