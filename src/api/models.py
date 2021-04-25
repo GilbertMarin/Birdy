@@ -43,13 +43,14 @@ class Bird_Capture(db.Model):
     loc = db.Column(db.String(200), unique=False, nullable=False) # Location
     time = db.Column(db.String(50), unique=False, nullable=False) # Time the bird was captured
     rmk = db.Column(db.String(300), unique=False, nullable=False) # Description
-    privacy = db.Column(db.String(25), unique=False, nullable=False) # Private or Public
+    public = db.Column(db.Boolean(), unique=False, nullable=False) # public True/False
     user_id = db.Column(db.Integer, db.ForeignKey('user.id')) # ID to wich this bird capture belongs
 
     def __repr__(self):
         return '<Bird_Capture %r>' % self.en
 
     def serialize(self):
+        user = User.query.get(self.user_id)
         return {
             "id": self.id,
             "en": self.en,
@@ -57,7 +58,8 @@ class Bird_Capture(db.Model):
             "loc": self.loc,
             "time": self.time,
             "rmk": self.rmk,
-            "privacy": self.privacy
+            "public": self.public,
+            "author": user.first_name + " " + user.last_name
             # do not serialize the password, its a security breach
         }
     
