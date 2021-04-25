@@ -6,6 +6,7 @@ class Service:
 
     def get_user_captures(user_id):
         
+        # Get from the list of users, the one that has the id from the parameter
         user = User.query.get(user_id)
         if user is None:
             raise APIException('User not found', status_code=404)

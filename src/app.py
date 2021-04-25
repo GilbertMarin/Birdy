@@ -31,7 +31,7 @@ else:
     app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:////tmp/test.db"
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config["JWT_SECRET_KEY"] = os.environ.get('JW_TOKEN')  # Change this "super secret" with something else!
+app.config["JWT_SECRET_KEY"] = os.environ.get('JW_TOKEN')  # File safe on .env file in the root.
 jwt = JWTManager(app)
 
 MIGRATE = Migrate(app, db)
@@ -129,7 +129,7 @@ def get_single_user(id):
     return jsonify(user.serialize()), 200
 
 # Endpoint for returning all the captures from all the users.
-@app.route('/publicCaptures', methods=['GET'])
+@app.route('/bird_captures/public', methods=['GET'])
 def get_public_captures():
 
     response_body = {
@@ -141,10 +141,10 @@ def get_public_captures():
     return jsonify(public_captures), 200
 
 # Endpoint for returning all the captures in the private journal for every user.
-@app.route('/userCaptures', methods=['GET'])
+@app.route('/bird_captures', methods=['GET'])
 @jwt_required()
 def get_user_captures():
-
+    
     response_body = {
         "msg": "Hello, this is your GET /captures response "
     }
@@ -153,6 +153,26 @@ def get_user_captures():
     current_user_id = get_jwt_identity()
     user_captures = Service.get_user_captures(current_user_id)
     return jsonify(user_captures), 200
+
+# Endpoint for adding a bird capture to the private journal
+@app.route('/bird_captures', methods=['POST'])
+# @jwt_required()
+def add_capture():
+
+    # current_user_id = get_jwt_identity()
+    request_body = request.get_json()
+    bird_capture = Bird_Capture(en=request_body["en"], cnt=request_body["cnt"], loc=request_body["loc"], time=request_body["time"], rmk=request_body["rmk"], privacy=request_body["privacy"], user_id=request_body["user_id"])
+
+    # Append the the instance into the database session of the API
+    db.session.add(bird_capture)
+    db.session.commit()
+
+    # Return a response with sucessful status
+    response_body = {
+        "msg": "POST /bird_captures response. Bird capture added succesfully."
+    }
+
+    return jsonify(response_body), 200
 
 # any other endpoint will try to serve it like a static file
 @app.route('/<path:path>', methods=['GET'])
