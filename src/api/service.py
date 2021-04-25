@@ -4,7 +4,7 @@ class Service:
 
 # --------------------------- Captures Service ------------------------------------------
 
-    def get_captures(user_id):
+    def get_user_captures(user_id):
         
         user = User.query.get(user_id)
         if user is None:
@@ -13,22 +13,17 @@ class Service:
         # Return all the captures for the specific id
         userCaptures = Bird_Capture.query.filter_by(user_id=user_id).all()
 
-        # bird = Bird_Capture.query.get()
-
+        # Serialize the object in a JSON format
         userCaptures = list(map(lambda x: x.serialize(), userCaptures)) 
 
         return userCaptures
 
-    # def get_captures_per_type(fav):
-    #     # print(bcolors.WARNING + str(fav) + bcolors.ENDC)
-    #     if fav.item_type == "planet":
-    #         planet = Planet.query.get(fav.item_id)
-    #         return planet.serialize()
-    #     if fav.item_type == "character":
-    #         character = Character.query.get(fav.item_id)
-    #         return character.serialize()
+    def get_public_captures():
+   
+        public_captures = Bird_Capture.query.filter_by(privacy="public").all()
+        public_captures = list(map(lambda x: x.serialize(), public_captures)) 
             
-    #     return None
+        return public_captures
 
 
 # --------------------------- Favorites Service ------------------------------------------

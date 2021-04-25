@@ -83,10 +83,22 @@ def get_users():
 
     return jsonify(users), 200
 
+# Endpoint for returning all the captures from all the users.
+@app.route('/publicCaptures', methods=['GET'])
+def get_public_captures():
+
+    response_body = {
+        "msg": "Hello, this is your GET /captures response "
+    }
+
+    # Access the identity of the current user with get_jwt_identity
+    public_captures = Service.get_public_captures()
+    return jsonify(public_captures), 200
+
 # Endpoint for returning all the captures in the private journal for every user.
-@app.route('/captures', methods=['GET'])
+@app.route('/userCaptures', methods=['GET'])
 @jwt_required()
-def get_captures():
+def get_user_captures():
 
     response_body = {
         "msg": "Hello, this is your GET /captures response "
@@ -94,8 +106,8 @@ def get_captures():
 
     # Access the identity of the current user with get_jwt_identity
     current_user_id = get_jwt_identity()
-    all_captures = Service.get_captures(current_user_id)
-    return jsonify(all_captures), 200
+    user_captures = Service.get_user_captures(current_user_id)
+    return jsonify(user_captures), 200
 
 # any other endpoint will try to serve it like a static file
 @app.route('/<path:path>', methods=['GET'])
