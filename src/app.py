@@ -7,7 +7,7 @@ from flask_migrate import Migrate
 from flask_swagger import swagger
 from flask_cors import CORS
 from api.utils import APIException, generate_sitemap
-from api.models import db, User, Bird_Capture
+from api.models import db, User, Bird_Capture, Audio_Favorite
 from api.routes import api
 from api.admin import setup_admin
 from api.service import Service
@@ -180,9 +180,43 @@ def add_capture():
 
 # ------------------------------------------ Favorites Endpoints ------------------------------------------
 
+# Endpoint for getting all the favorites of the current user.
+@app.route('/favorites', methods=['GET'])
+@jwt_required()
+def get_audio_favorites():
+    
+    # Access the identity of the current user with get_jwt_identity
+    current_user_id = get_jwt_identity()
+    all_favorites = Service.get_favorites(current_user_id)
+    return jsonify(all_favorites), 200
 
+# Endpoint for adding a favorite to the current user personal list.
+@app.route('/favorites', methods=['POST'])
+def add_audio_favorite():
 
+    request_body = request.get_json()
+    # define an instance of Favorite
+    audio_favorite = Audio_Favorite(en=request_body["en"], cnt=request_body["cnt"], loc=request_body["loc"], time=request_body["time"], url_sound=request_body["url_sound"], user_id=request_body["user_id"])
+    # save it on the database table for Favorites
+    db.session.add(audio_favorite)
+    db.session.commit()
+    
+    return jsonify(request_body), 200
 
+@app.route('/favorites/<int:position>', methods=['DELETE'])
+def delete_favorite(position):
+    audio_favorite = Audio_Favorite.query.filter_by(id=position).first()
+    # favorite = Favorite.query.get(position)
+
+    if audio_favorite is None:
+        raise APIException('Favorite not found', status_code=404)
+
+    db.session.delete(audio_favorite)
+    db.session.commit()
+    response_body = {
+         "msg": "Favorite deleted successful",
+    }
+    return jsonify(response_body), 200
 
 # any other endpoint will try to serve it like a static file
 @app.route('/<path:path>', methods=['GET'])
