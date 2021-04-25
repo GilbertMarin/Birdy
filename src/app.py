@@ -58,6 +58,8 @@ def sitemap():
         return generate_sitemap(app)
     return send_from_directory(static_file_dir, 'index.html')
 
+# ------------------------------------------ Users Endpoints ------------------------------------------
+
 # Endpoint for validating parameters and decide if return token.
 @app.route("/login", methods=["POST"])
 def create_token():
@@ -128,6 +130,8 @@ def get_single_user(id):
 
     return jsonify(user.serialize()), 200
 
+# ------------------------------------------ Bird Captures Endpoints ------------------------------------------
+
 # Endpoint for returning all the captures from all the users.
 @app.route('/bird_captures/public', methods=['GET'])
 def get_public_captures():
@@ -173,6 +177,12 @@ def add_capture():
     }
 
     return jsonify(response_body), 200
+
+# ------------------------------------------ Favorites Endpoints ------------------------------------------
+
+
+
+
 
 # any other endpoint will try to serve it like a static file
 @app.route('/<path:path>', methods=['GET'])
