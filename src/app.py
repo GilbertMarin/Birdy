@@ -73,6 +73,16 @@ def create_token():
     access_token = create_access_token(identity=user.id)
     return jsonify(access_token)
 
+# Endpoint for registering a new user.
+@app.route('/register', methods=['POST'])
+def add_user():
+    users = User.getAll()
+    response_body = {
+        "msg": "Hello, this is your GET /users response "
+    }
+
+    return jsonify(users), 200
+
 # Endpoint for returning all users.
 @app.route('/users', methods=['GET'])
 def get_users():
@@ -82,6 +92,16 @@ def get_users():
     }
 
     return jsonify(users), 200
+
+# Endpoint for returning data for an specific user.
+@app.route('/user/<int:id>', methods=['GET'])
+def get_single_user(id):
+    user = User.query.get(id)
+
+    if user is None:
+        raise APIException('User not found', status_code=404)
+    
+    return jsonify(user.serialize()), 200
 
 # Endpoint for returning all the captures from all the users.
 @app.route('/publicCaptures', methods=['GET'])
