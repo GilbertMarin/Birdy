@@ -76,12 +76,21 @@ def create_token():
 # Endpoint for registering a new user.
 @app.route('/register', methods=['POST'])
 def add_user():
-    users = User.getAll()
+    # Take the data passed from the front request an turn it into JSON
+    request_body = request.get_json()
+
+    # Build a new instance of User, passing the parameters from the request.body
+    user = User(first_name=request_body["first_name"], last_name=request_body["last_name"], email=request_body["email"], password=request_body["password"], is_active=request_body["is_active"])
+
+    # Append the the instance into the database session of the API
+    db.session.add(user)
+    db.session.commit()
+
     response_body = {
-        "msg": "Hello, this is your GET /users response "
+        "msg": "Hello, this is your POST /register response. Registration succesfully done."
     }
 
-    return jsonify(users), 200
+    return jsonify(response_body), 200
 
 # Endpoint for returning all users.
 @app.route('/users', methods=['GET'])
@@ -100,7 +109,7 @@ def get_single_user(id):
 
     if user is None:
         raise APIException('User not found', status_code=404)
-    
+
     return jsonify(user.serialize()), 200
 
 # Endpoint for returning all the captures from all the users.
