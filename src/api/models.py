@@ -11,6 +11,7 @@ class User(db.Model):
     password = db.Column(db.String(80), unique=False, nullable=False)
     is_active = db.Column(db.Boolean(), unique=False, nullable=False)
     bird_capture = db.relationship('Bird_Capture', backref='user', lazy=True) # One to Many
+    audio_favorite = db.relationship('Audio_Favorite', backref='user', lazy=True) # One to Many
 
     def __repr__(self):
         return '<User %r>' % self.first_name
@@ -73,3 +74,28 @@ class Bird_Capture(db.Model):
         bird_capture = Bird_Capture.query.get(id)
         db.session.delete(bird_capture)
         db.session.commit()
+
+class Audio_Favorite(db.Model):
+    __tablename__ = 'audio_favorite'
+    id = db.Column(db.Integer, primary_key=True)
+    en = db.Column(db.String(50), unique=False, nullable=False) # English name
+    cnt = db.Column(db.String(50), unique=False, nullable=False) # Country
+    loc = db.Column(db.String(200), unique=False, nullable=False) # Location
+    time = db.Column(db.String(50), unique=False, nullable=False) # Time the bird was captured
+    url_sound = db.Column(db.String(200), unique=False, nullable=False) # mp3 bird sound
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id')) 
+    
+    def __repr__(self):
+        return '<Audio_Favorite %r>' % self.en
+
+    def serialize(self):
+        return {
+            "id": self.id,
+            "en": self.en,
+            "cnt": self.cnt,
+            "loc": self.loc,
+            "time": self.time,
+            "url_sound": self.url_sound
+
+            # do not serialize the password, its a security breach
+        }
