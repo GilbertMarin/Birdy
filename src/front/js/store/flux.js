@@ -13,13 +13,38 @@ const getState = ({ getStore, getActions, setStore }) => {
 			birdSounds: [],
 			url: "https://www.xeno-canto.org/api/2/recordings?query=cnt%3A%22Costa%20Rica%22",
 			heroku: "https://mighty-plateau-65231.herokuapp.com/",
-			newURL: "https://3001-chocolate-gecko-u27ii1k9.ws-us03.gitpod.io",
+			newURL: process.env.BACKEND_URL,
 			login: false,
 			email: "",
-			register: false
+			register: false,
+			activeUser: null
 		},
 		actions: {
 			// Use getActions() to call a function within a fuction
+			getUser: () => {
+				const store = getStore();
+				fetch(`${store.newURL}/user/1`)
+					.then(res => {
+						if (!res.ok) {
+							// the "the throw Error will send the error to the "catch"
+							throw Error("Could not fetch the data for that resource");
+						}
+						return res.json();
+					})
+					.then(data => {
+						// Restore the state for the error once the data is fetched.
+						// Once you receive the data change the state of isPending and the message vanish
+						// specify on data.recordings for the array
+						//console.log("This came from API XENO-CANTO: ", data.recordings);
+						console.log(data);
+						setStore({ activeUser: data, isPending: false, error: null });
+						//getActions().getSounds();
+					})
+					.catch(err => {
+						console.error(err.message);
+						setStore({ activeUser: null, isPending: true, error: true });
+					});
+			},
 
 			getBirds: () => {
 				const store = getStore();
