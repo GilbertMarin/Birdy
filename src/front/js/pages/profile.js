@@ -27,7 +27,7 @@ export const Profile = () => {
 									/>
 								</a>
 								<h1>{store.activeUser.first_name}</h1>
-								<p>carla.c@gmail.com</p>
+								<h1>{store.activeUser.email}</h1>
 							</div>
 
 							<ul className="nav nav-pills nav-stacked">

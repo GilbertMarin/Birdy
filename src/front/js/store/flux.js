@@ -1,3 +1,5 @@
+import jwt_decode from "jwt-decode";
+
 const getState = ({ getStore, getActions, setStore }) => {
 	return {
 		// -- INSTRUCTIONS FOR FETCHING FROM XENO-CANTO API --
@@ -23,7 +25,9 @@ const getState = ({ getStore, getActions, setStore }) => {
 			// Use getActions() to call a function within a fuction
 			getUser: () => {
 				const store = getStore();
-				fetch(`${store.newURL}/user/1`)
+				const token = localStorage.getItem("token");
+				const tokenPayload = jwt_decode(token).sub;
+				fetch(`${store.newURL}/user/${tokenPayload}`)
 					.then(res => {
 						if (!res.ok) {
 							// the "the throw Error will send the error to the "catch"
@@ -93,7 +97,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 						"Content-Type": "application/json"
 					},
 					body: JSON.stringify({
-						username: user,
+						email: user,
 						password: password
 					})
 				})
@@ -101,7 +105,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 						return resp.json();
 					})
 					.then(data => {
-						localStorage.setItem("token", data.access_token);
+						localStorage.setItem("token", data);
 						setStore({ username: user });
 						console.log(user);
 						window.location.reload();
