@@ -1,5 +1,4 @@
 import React from "react";
-import ReactAudioPlayer from "react-audio-player";
 import { PropTypes } from "prop-types";
 
 // React-Bootstrap
@@ -9,10 +8,7 @@ import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 
-export const AudioCard = ({ name, country, location, time, sound }) => {
-	// const { store, actions } = useContext(Context);
-	// <AudioCard key={index} name={bird.en} country={bird.cnt} location={bird.loc} time={bird.time} sound={store.birdSound[index]}/>;
-
+export const SocialCard = ({ name, country, location, time, description, author }) => {
 	return (
 		<Card>
 			<Card.Header as="h5">{name}</Card.Header>
@@ -20,17 +16,19 @@ export const AudioCard = ({ name, country, location, time, sound }) => {
 				<Card.Text>Country: {country}</Card.Text>
 				<Card.Text>Location: {location}</Card.Text>
 				<Card.Text>Time: {time}</Card.Text>
-				<ReactAudioPlayer src={sound} controls />
+				<Card.Text>Description: {description}</Card.Text>
+				<Card.Text>Author: {author}</Card.Text>
 				<Button variant="primary">Add to favorite</Button>
 			</Card.Body>
 		</Card>
 	);
 };
 
-AudioCard.propTypes = {
+SocialCard.propTypes = {
 	name: PropTypes.string,
 	country: PropTypes.string,
 	location: PropTypes.string,
 	time: PropTypes.string,
-	sound: PropTypes.string
+	description: PropTypes.string,
+	author: PropTypes.string
 };
