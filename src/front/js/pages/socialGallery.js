@@ -17,6 +17,7 @@ export const SocialGallery = () => {
 		actions.getPublicCaptures();
 	}, []);
 
+	// Add a condition: if (store.birdPublicCaptures.length == 0) return "There is nothing to share for the moment (or a GIF)"
 	return (
 		<div className="container">
 			{!store.isPending ? (
