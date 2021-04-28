@@ -1,3 +1,5 @@
+import jwt_decode from "jwt-decode";
+
 const getState = ({ getStore, getActions, setStore }) => {
 	return {
 		// -- INSTRUCTIONS FOR FETCHING FROM XENO-CANTO API --
@@ -17,10 +19,37 @@ const getState = ({ getStore, getActions, setStore }) => {
 			newURL: process.env.BACKEND_URL,
 			login: false,
 			email: "",
-			register: false
+			register: false,
+			activeUser: null
 		},
 		actions: {
 			// Use getActions() to call a function within a fuction
+			getUser: () => {
+				const store = getStore();
+				const token = localStorage.getItem("token");
+				const tokenPayload = jwt_decode(token).sub;
+				fetch(`${store.newURL}/user/${tokenPayload}`)
+					.then(res => {
+						if (!res.ok) {
+							// the "the throw Error will send the error to the "catch"
+							throw Error("Could not fetch the data for that resource");
+						}
+						return res.json();
+					})
+					.then(data => {
+						// Restore the state for the error once the data is fetched.
+						// Once you receive the data change the state of isPending and the message vanish
+						// specify on data.recordings for the array
+						//console.log("This came from API XENO-CANTO: ", data.recordings);
+						console.log(data);
+						setStore({ activeUser: data, isPending: false, error: null });
+						//getActions().getSounds();
+					})
+					.catch(err => {
+						console.error(err.message);
+						setStore({ activeUser: null, isPending: true, error: true });
+					});
+			},
 
 			getBirds: () => {
 				const store = getStore();
