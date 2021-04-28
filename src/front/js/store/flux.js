@@ -156,7 +156,18 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 			getPublicCaptures: () => {
 				const store = getStore();
-				fetch(`${store.newURL}/bird_captures/public`)
+				const token = localStorage.getItem("token");
+				console.log("Token inside publicCaptures", token);
+
+				const opts = {
+					method: "GET",
+					headers: {
+						"Content-Type": "application/json",
+						Authorization: "Bearer " + token
+					}
+				};
+
+				fetch(`${store.newURL}/bird_captures/public`, opts)
 					.then(res => {
 						if (!res.ok) {
 							// the "the throw Error will send the error to the "catch"
