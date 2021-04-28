@@ -28,7 +28,16 @@ const getState = ({ getStore, getActions, setStore }) => {
 				const store = getStore();
 				const token = localStorage.getItem("token");
 				const tokenPayload = jwt_decode(token).sub;
-				fetch(`${store.newURL}/user/${tokenPayload}`)
+
+				const opts = {
+					method: "GET",
+					headers: {
+						"Content-Type": "application/json",
+						Authorization: "Bearer " + token
+					}
+				};
+
+				fetch(`${store.newURL}/user/${tokenPayload}`, opts)
 					.then(res => {
 						if (!res.ok) {
 							// the "the throw Error will send the error to the "catch"
@@ -116,6 +125,13 @@ const getState = ({ getStore, getActions, setStore }) => {
 						console.log("error", err);
 					});
 			},
+
+			logout: () => {
+				localStorage.removeItem("token");
+				console.log("Loging out");
+				setStore({ login: false });
+			},
+
 			getToken: () => {
 				let store = getStore();
 				let token = localStorage.getItem("token");
