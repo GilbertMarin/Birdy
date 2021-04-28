@@ -112,6 +112,7 @@ def add_user():
     
 # Endpoint for returning all users.
 @app.route('/users', methods=['GET'])
+@jwt_required()
 def get_users():
 
     # Get a list with all the users serialized.
@@ -122,6 +123,7 @@ def get_users():
 
 # Endpoint for returning data for an specific user.
 @app.route('/user/<int:id>', methods=['GET'])
+@jwt_required()
 def get_single_user(id):
     user = User.query.get(id)
 
@@ -134,6 +136,7 @@ def get_single_user(id):
 
 # Endpoint for returning all the captures from all the users.
 @app.route('/bird_captures/public', methods=['GET'])
+@jwt_required()
 def get_public_captures():
 
     response_body = {
@@ -160,7 +163,7 @@ def get_user_captures():
 
 # Endpoint for adding a bird capture to the private journal
 @app.route('/bird_captures', methods=['POST'])
-# @jwt_required()
+@jwt_required()
 def add_capture():
 
     # current_user_id = get_jwt_identity()
@@ -192,6 +195,7 @@ def get_audio_favorites():
 
 # Endpoint for adding a favorite to the current user personal list.
 @app.route('/favorites', methods=['POST'])
+@jwt_required()
 def add_audio_favorite():
 
     request_body = request.get_json()
@@ -204,6 +208,7 @@ def add_audio_favorite():
     return jsonify(request_body), 200
 
 @app.route('/favorites/<int:position>', methods=['DELETE'])
+@jwt_required()
 def delete_favorite(position):
     audio_favorite = Audio_Favorite.query.filter_by(id=position).first()
     # favorite = Favorite.query.get(position)
