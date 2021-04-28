@@ -11,6 +11,7 @@ import injectContext from "./store/appContext";
 import { Navbar } from "./component/navbar";
 import { Footer } from "./component/footer";
 import { AudioGallery } from "./pages/audioGallery";
+import { SocialGallery } from "./pages/socialGallery";
 
 //create your first component
 const Layout = () => {
@@ -38,6 +39,9 @@ const Layout = () => {
 						</Route>
 						<Route exact path="/profile">
 							<Profile />
+            </Route>
+						<Route exact path="/socialGallery">
+							<SocialGallery />
 						</Route>
 						<Route path="*">
 							<h1>Not found!</h1>
