@@ -23,43 +23,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 			activeUser: null
 		},
 		actions: {
-			// Use getActions() to call a function within a fuction
-			getUser: () => {
-				const store = getStore();
-				const token = localStorage.getItem("token");
-				const tokenPayload = jwt_decode(token).sub;
-
-				const opts = {
-					method: "GET",
-					headers: {
-						"Content-Type": "application/json",
-						Authorization: "Bearer " + token
-					}
-				};
-
-				fetch(`${store.newURL}/user/${tokenPayload}`, opts)
-					.then(res => {
-						if (!res.ok) {
-							// the "the throw Error will send the error to the "catch"
-							throw Error("Could not fetch the data for that resource");
-						}
-						return res.json();
-					})
-					.then(data => {
-						// Restore the state for the error once the data is fetched.
-						// Once you receive the data change the state of isPending and the message vanish
-						// specify on data.recordings for the array
-						//console.log("This came from API XENO-CANTO: ", data.recordings);
-						console.log(data);
-						setStore({ activeUser: data, isPending: false, error: null });
-						//getActions().getSounds();
-					})
-					.catch(err => {
-						console.error(err.message);
-						setStore({ activeUser: null, isPending: true, error: true });
-					});
-			},
-
 			getBirds: () => {
 				const store = getStore();
 				fetch(store.heroku + store.url)
@@ -115,9 +78,16 @@ const getState = ({ getStore, getActions, setStore }) => {
 						return resp.json();
 					})
 					.then(data => {
-						localStorage.setItem("token", data);
-						setStore({ username: user });
-						console.log(user);
+						localStorage.setItem("token", data.access_token);
+						// const actUser = {
+						//     first_name: data.first_name,
+						//     last_name: data.last_name,
+						//     email: data.email
+						// };
+						console.log(data);
+						setStore({ activeUser: data });
+						//setStore({ email: user });
+
 						window.location.reload();
 					})
 
