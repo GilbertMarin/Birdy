@@ -20,44 +20,16 @@ const getState = ({ getStore, getActions, setStore }) => {
 			login: false,
 			email: "",
 			register: false,
-			activeUser: null
+			token: null,
+			activeUser: {}
 		},
 		actions: {
-			// Use getActions() to call a function within a fuction
-			getUser: () => {
+			syncTokenFromSessionStore: () => {
 				const store = getStore();
-				const token = localStorage.getItem("token");
-				const tokenPayload = jwt_decode(token).sub;
-
-				const opts = {
-					method: "GET",
-					headers: {
-						"Content-Type": "application/json",
-						Authorization: "Bearer " + token
-					}
-				};
-
-				fetch(`${store.newURL}/user/${tokenPayload}`, opts)
-					.then(res => {
-						if (!res.ok) {
-							// the "the throw Error will send the error to the "catch"
-							throw Error("Could not fetch the data for that resource");
-						}
-						return res.json();
-					})
-					.then(data => {
-						// Restore the state for the error once the data is fetched.
-						// Once you receive the data change the state of isPending and the message vanish
-						// specify on data.recordings for the array
-						//console.log("This came from API XENO-CANTO: ", data.recordings);
-						console.log(data);
-						setStore({ activeUser: data, isPending: false, error: null });
-						//getActions().getSounds();
-					})
-					.catch(err => {
-						console.error(err.message);
-						setStore({ activeUser: null, isPending: true, error: true });
-					});
+				const token = sessionStorage.getItem("token");
+				console.log("Application jus loaded, synching the session storage token");
+				if (token && token != "" && token != undefined) setStore({ token: token });
+				console.log("current token on SYNC: ", store.token);
 			},
 
 			getBirds: () => {
@@ -112,13 +84,14 @@ const getState = ({ getStore, getActions, setStore }) => {
 					})
 				})
 					.then(resp => {
+						if (!resp.ok) return false;
 						return resp.json();
 					})
 					.then(data => {
-						localStorage.setItem("token", data);
-						setStore({ username: user });
-						console.log(user);
-						window.location.reload();
+						setStore({ activeUser: data });
+						console.log("ActiveUser from flux", store.activeUser);
+						setStore({ token: data.access_token });
+						sessionStorage.setItem("token", data.access_token);
 					})
 
 					.catch(err => {
@@ -127,21 +100,11 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 
 			logout: () => {
-				localStorage.removeItem("token");
+				sessionStorage.removeItem("token");
 				console.log("Loging out");
-				setStore({ login: false });
+				setStore({ token: null });
 			},
 
-			getToken: () => {
-				let store = getStore();
-				let token = localStorage.getItem("token");
-
-				if (token && token.length > 0) {
-					setStore({ login: true });
-				} else {
-					setStore({ login: false });
-				}
-			},
 			registerValidation: (firstname, lastname, email, password) => {
 				const store = getStore();
 
@@ -172,7 +135,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 			getPublicCaptures: () => {
 				const store = getStore();
-				const token = localStorage.getItem("token");
+				const token = sessionStorage.getItem("token");
 				console.log("Token inside publicCaptures", token);
 
 				const opts = {

@@ -15,9 +15,7 @@ library.add(fab, faCheckSquare, faCoffee);
 
 export const Profile = () => {
 	const { store, actions } = useContext(Context);
-	useEffect(() => {
-		actions.getUser();
-	}, []);
+
 	return (
 		<div className="fondo">
 			<div className="container bootstrap snippets bootdey">
