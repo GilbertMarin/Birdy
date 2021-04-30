@@ -13,6 +13,11 @@ from api.admin import setup_admin
 from api.service import Service
 #from models import Person
 
+#return Password
+
+from flask_mail import Mail, Message
+from itsdangerous import URLSafeTimedSerializer, SignatureExpired
+
 # JWT EXTENDED
 from flask_jwt_extended import create_access_token
 from flask_jwt_extended import get_jwt_identity
@@ -240,7 +245,48 @@ def serve_any_other_file(path):
     response.cache_control.max_age = 0 # avoid cache memory
     return response
 
+
+#-------------------------- Forgot Password Endpoint ------------------------------------------------
+
+
+
+app.config.from_pyfile('config.cfg')
+
+mail = Mail(app)
+
+s = URLSafeTimedSerializer('Thisisasecret!')
+
+@app.route('/restore', methods=['GET', 'POST'])
+def index():
+    if request.method == 'GET':
+        return '<form action="/restore" method="POST"><input name="email"><input type="submit"></form>'
+
+    email = request.form['email']
+    token = s.dumps(email, salt='email-confirm')
+
+    msg = Message('Confirm Email', sender=None, recipients=[email])
+
+    link = url_for('confirm_email', token=token, _external=True)
+
+    msg.body = 'Your link is {}'.format(link)
+
+    mail.send(msg)
+
+    return '<h1>The email you entered is {}. The token is {}</h1>'.format(email, token)
+
+@app.route('/confirm_email/<token>')
+def confirm_email(token):
+    try:
+        email = s.loads(token, salt='email-confirm', max_age=3600)
+    except SignatureExpired:
+        return '<h1>The token is expired!</h1>'
+    return '<h1>The token works!</h1>'
+
+
+        
+
 # this only runs if `$ python src/main.py` is executed
 if __name__ == '__main__':
     PORT = int(os.environ.get('PORT', 3001))
     app.run(host='0.0.0.0', port=PORT, debug=True)
+
