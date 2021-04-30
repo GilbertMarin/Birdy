@@ -12,10 +12,6 @@ import "../../styles/gif.scss";
 export const Profile = () => {
 	const { store, actions } = useContext(Context);
 
-	// useEffect(() => {
-	// 	actions.getUser();
-	// }, []);
-
 	return (
 		<>
 			<NavbarBirdy />

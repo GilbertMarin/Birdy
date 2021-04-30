@@ -45,12 +45,14 @@ export const Login = () => {
 		});
 	};
 
-	useEffect(() => {
-		actions.getToken();
-		if (store.login) {
-			history.push("/audioGallery");
-		}
-	}, []);
+	const handleClick = () => {
+		if (user == "" || pass == "" || user == undefined || pass == undefined) alert("Bad email or password");
+		else actions.loginValidation(user, pass);
+		// Pass login parameters to make a fetch to the back end.
+	};
+
+	// Every time it finds a token into the storage it will redirect to /home page
+	if (store.token && store.token != "" && store.token != undefined && store.token != null) history.push("/home");
 
 	return (
 		<>
@@ -120,11 +122,7 @@ export const Login = () => {
 								/>
 							</FormGroup>
 							<FormGroup className="mx-sm-4 pb-3">
-								<Button
-									className="btn btn-block signin"
-									onClick={() => {
-										actions.loginValidation(user, pass);
-									}}>
+								<Button className="btn btn-block signin" onClick={() => handleClick()}>
 									Login
 								</Button>
 							</FormGroup>

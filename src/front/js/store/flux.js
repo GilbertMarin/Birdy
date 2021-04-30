@@ -20,9 +20,18 @@ const getState = ({ getStore, getActions, setStore }) => {
 			login: false,
 			email: "",
 			register: false,
-			activeUser: null
+			token: null,
+			activeUser: {}
 		},
 		actions: {
+			syncTokenFromSessionStore: () => {
+				const store = getStore();
+				const token = sessionStorage.getItem("token");
+				console.log("Application jus loaded, synching the session storage token");
+				if (token && token != "" && token != undefined) setStore({ token: token });
+				console.log("current token on SYNC: ", store.token);
+			},
+
 			getBirds: () => {
 				const store = getStore();
 				fetch(store.heroku + store.url)
@@ -75,20 +84,14 @@ const getState = ({ getStore, getActions, setStore }) => {
 					})
 				})
 					.then(resp => {
+						if (!resp.ok) return false;
 						return resp.json();
 					})
 					.then(data => {
-						localStorage.setItem("token", data.access_token);
-						// const actUser = {
-						//     first_name: data.first_name,
-						//     last_name: data.last_name,
-						//     email: data.email
-						// };
-						console.log(data);
 						setStore({ activeUser: data });
-						//setStore({ email: user });
-
-						window.location.reload();
+						console.log("ActiveUser from flux", store.activeUser);
+						setStore({ token: data.access_token });
+						sessionStorage.setItem("token", data.access_token);
 					})
 
 					.catch(err => {
@@ -97,21 +100,11 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 
 			logout: () => {
-				localStorage.removeItem("token");
+				sessionStorage.removeItem("token");
 				console.log("Loging out");
-				setStore({ login: false });
+				setStore({ token: null });
 			},
 
-			getToken: () => {
-				let store = getStore();
-				let token = localStorage.getItem("token");
-
-				if (token && token.length > 0) {
-					setStore({ login: true });
-				} else {
-					setStore({ login: false });
-				}
-			},
 			registerValidation: (firstname, lastname, email, password) => {
 				const store = getStore();
 
@@ -142,7 +135,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 			getPublicCaptures: () => {
 				const store = getStore();
-				const token = localStorage.getItem("token");
+				const token = sessionStorage.getItem("token");
 				console.log("Token inside publicCaptures", token);
 
 				const opts = {

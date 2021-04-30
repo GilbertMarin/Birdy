@@ -73,7 +73,15 @@ def create_token():
     
     # create a new token with the user id inside
     access_token = create_access_token(identity=user.id)
-    return jsonify(access_token=access_token, email=email, first_name=user.first_name, last_name=user.last_name)
+
+    response_body = {
+        "access_token": access_token,
+        "email": user.email,
+        "first_name": user.first_name,
+        "last_name": user.last_name
+    }
+
+    return jsonify(response_body)
 
 # Endpoint for registering a new user.
 @app.route('/register', methods=['POST'])
