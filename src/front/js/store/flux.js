@@ -31,6 +31,37 @@ const getState = ({ getStore, getActions, setStore }) => {
 				if (token && token != "" && token != undefined) setStore({ token: token });
 				console.log("current token on SYNC: ", store.token);
 			},
+			addBirdCapture: (pais, nombreave, localizacion, descripcion, tiempo, privacy) => {
+				const store = getStore();
+				const token = store.token;
+
+				fetch(`${store.newURL}/bird_captures`, {
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+						Authorization: "Bearer " + token
+					},
+					body: JSON.stringify({
+						cnt: pais,
+						en: nombreave,
+						user_id: 1,
+						loc: localizacion,
+						public: privacy,
+						rmk: descripcion,
+						time: tiempo
+					})
+				})
+					.then(resp => {
+						return resp.json();
+					})
+					.then(data => {
+						console.log("POST from Birdcapture", data);
+					})
+
+					.catch(err => {
+						console.log("error", err);
+					});
+			},
 
 			getBirds: () => {
 				const store = getStore();
