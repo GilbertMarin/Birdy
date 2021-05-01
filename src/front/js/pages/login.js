@@ -46,13 +46,18 @@ export const Login = () => {
 	};
 
 	const handleClick = () => {
-		if (user == "" || pass == "" || user == undefined || pass == undefined) alert("Bad email or password");
-		else actions.loginValidation(user, pass);
+		if (user == "" || pass == "" || user == undefined || pass == undefined) {
+			alert("Bad email or password");
+		} else {
+			actions.loginValidation(user, pass);
+		}
+
 		// Pass login parameters to make a fetch to the back end.
 	};
 
 	// Every time it finds a token into the storage it will redirect to /home page
-	if (store.token && store.token != "" && store.token != undefined && store.token != null) history.push("/home");
+	if (store.activeUser && store.activeUser != "" && store.activeUser !== undefined && store.activeUser !== null)
+		history.push("/audioGallery");
 
 	return (
 		<>

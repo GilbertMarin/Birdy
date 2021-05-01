@@ -21,7 +21,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			email: "",
 			register: false,
 			token: null,
-			activeUser: {}
+			activeUser: null
 		},
 		actions: {
 			syncTokenFromSessionStore: () => {
@@ -77,8 +77,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 						// Restore the state for the error once the data is fetched.
 						// Once you receive the data change the state of isPending and the message vanish
 						// specify on data.recordings for the array
-						//console.log("This came from API XENO-CANTO: ", data.recordings);
-						console.log(data.recordings);
 						setStore({ birdsRaw: data.recordings, isPending: false, error: null });
 						getActions().getSounds();
 					})
@@ -115,12 +113,17 @@ const getState = ({ getStore, getActions, setStore }) => {
 					})
 				})
 					.then(resp => {
-						if (!resp.ok) return false;
+						if (!resp.ok) {
+							alert("Bad email or password");
+							return false;
+						}
 						return resp.json();
 					})
 					.then(data => {
 						setStore({ activeUser: data });
 						console.log("ActiveUser from flux", store.activeUser);
+
+						sessionStorage.setItem("activeUser", JSON.stringify(data));
 						setStore({ token: data.access_token });
 						sessionStorage.setItem("token", data.access_token);
 					})
@@ -132,11 +135,13 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 			logout: () => {
 				sessionStorage.removeItem("token");
+				sessionStorage.removeItem("activeUser");
 				console.log("Loging out");
 				setStore({ token: null });
+				setStore({ activeUser: null });
 			},
 
-			registerValidation: (firstname, lastname, email, password) => {
+			registerValidation: (firstname, lastname, email, password, bio) => {
 				const store = getStore();
 
 				fetch(`${store.newURL}/register`, {
@@ -149,19 +154,28 @@ const getState = ({ getStore, getActions, setStore }) => {
 						last_name: lastname,
 						email: email,
 						password: password,
-						is_active: false
+						bio: bio
 					})
 				})
 					.then(resp => {
+						if (!resp.ok) {
+							return false;
+						}
+
 						return resp.json();
 					})
 					.then(data => {
+						console.log(data);
 						setStore({ register: true });
 					})
 
 					.catch(err => {
 						console.log("error", err);
 					});
+			},
+
+			setRegister: () => {
+				setStore({ register: false });
 			},
 
 			getPublicCaptures: () => {
