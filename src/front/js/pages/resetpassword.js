@@ -33,25 +33,18 @@ export const ResetPassword = () => {
 						<FormGroup className="text-center pb-3">
 							<h1 className="text-light">Restore Password</h1>
 						</FormGroup>
-						<FormGroup className="mx-sm-4 pb-3">
-							<input
-								type="text"
-								className="form-control"
-								placeholder="Password"
-								onChange={e => setUser(e.target.value)}
-							/>
-						</FormGroup>
+
 						<FormGroup className="mx-sm-4 pb-3">
 							<input
 								type="password"
 								className="form-control"
-								placeholder="Confirm Password"
+								placeholder="New Password"
 								onChange={e => setPass(e.target.value)}
 							/>
 						</FormGroup>
 						<FormGroup className="mx-sm-4 pb-3">
-							<Button className="btn btn-block signin" onClick={() => handleClick()}>
-								Login
+							<Button className="btn btn-block signin" onClick={() => resetPassword()}>
+								Restore
 							</Button>
 						</FormGroup>
 					</Form>

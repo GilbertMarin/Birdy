@@ -344,7 +344,7 @@ def index():
     </table>
    
 </body>
-</html>""".format(link="https://3000-chocolate-dragon-nkqcy9r2.ws-us04.gitpod.io/reset_password/"+ token)
+</html>""".format(link="https://3001-salmon-rattlesnake-ludn0c8s.ws-us04.gitpod.io/reset_password/"+ token)
 
     mail.send(msg)
 
