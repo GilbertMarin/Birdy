@@ -1,7 +1,19 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Link, useParams, useHistory } from "react-router-dom";
+import {
+	Container,
+	Button,
+	InputGroup,
+	FormControl,
+	Row,
+	Form,
+	FormGroup,
+	Col,
+	Carousel,
+	Image
+} from "react-bootstrap";
 
-export const ResePassword = () => {
+export const ResetPassword = () => {
 	let { token } = useParams();
 
 	useEffect(() => {
@@ -13,5 +25,38 @@ export const ResePassword = () => {
 				console.log(resp);
 			});
 	}, []);
-	return <h1>Hola</h1>;
+	return (
+		<Container>
+			<Row className="justify-content-center pt-5 mt-5 mr-1">
+				<Col className="col-md-4 formulary">
+					<Form action="">
+						<FormGroup className="text-center pb-3">
+							<h1 className="text-light">Restore Password</h1>
+						</FormGroup>
+						<FormGroup className="mx-sm-4 pb-3">
+							<input
+								type="text"
+								className="form-control"
+								placeholder="Password"
+								onChange={e => setUser(e.target.value)}
+							/>
+						</FormGroup>
+						<FormGroup className="mx-sm-4 pb-3">
+							<input
+								type="password"
+								className="form-control"
+								placeholder="Confirm Password"
+								onChange={e => setPass(e.target.value)}
+							/>
+						</FormGroup>
+						<FormGroup className="mx-sm-4 pb-3">
+							<Button className="btn btn-block signin" onClick={() => handleClick()}>
+								Login
+							</Button>
+						</FormGroup>
+					</Form>
+				</Col>
+			</Row>
+		</Container>
+	);
 };
