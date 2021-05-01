@@ -3,24 +3,38 @@ import { Context } from "../store/appContext";
 import "bootstrap/dist/css/bootstrap.css";
 import { CountrySelectBirdy } from "./countrySelect";
 import { Form, Button, FormGroup, FormControl, ControlLabe, Container } from "react-bootstrap";
+import InputGroup from "react-bootstrap/InputGroup";
 
 export const Logdetails = () => {
 	const { store, actions } = useContext(Context);
 	const [value, setValue] = React.useState(null);
-	const [pais, setPais] = useState("");
-	const [nombreave, setNombreave] = useState("");
-	const [localizacion, setLocalizacion] = useState("");
-	const [descripcion, setDescripcion] = useState("");
-	const [tiempo, setTiempo] = useState("");
-	//const [public, setPublic] = useState(True);
+
+	const [country, setCountry] = useState("");
+	const [birdName, setBirdName] = useState("");
+	const [localization, setLocalization] = useState("");
+	const [description, setDescription] = useState("");
+	const [time, setTime] = useState("");
+	const [privacy, setPrivacy] = useState(false);
 
 	const handleClick = () => {
-		if (pais == "" || nombreave == "" || localizacion == "" || descripcion == "" || tiempo == "")
+		if (country == "" || birdName == "" || localization == "" || description == "" || time == "")
 			alert("Necesita completar todo los campos");
-		else actions.addBirdCapture(pais, nombreave, localizacion, descripcion, tiempo, true);
-		console.log(pais, nombreave, localizacion, descripcion, tiempo);
+		else {
+			actions.addBirdCapture(country, birdName, localization, description, time, privacy);
+			console.log(country, birdName, localization, description, time, privacy);
+			inputReset();
+		}
 
 		// Pass login parameters to make a fetch to the back end.
+	};
+
+	const inputReset = () => {
+		setCountry("");
+		setBirdName("");
+		setLocalization("");
+		setDescription("");
+		setTime("");
+		setPrivacy(false);
 	};
 
 	return (
@@ -39,58 +53,76 @@ export const Logdetails = () => {
 				</div>
 				<Form>
 					<Form.Group controlId="exampleForm.ControlTextarea1">
-						<Form.Label>pais</Form.Label>
 						<Form.Control
+							className="sm-4 mb-3"
 							as="textarea"
 							rows={1}
 							type="text"
-							placeholder="pais"
+							placeholder="Country"
 							required
-							onChange={e => setPais(e.target.value)}
+							value={country}
+							onChange={e => setCountry(e.target.value)}
 						/>
-						<Form.Label> Nombre del Ave</Form.Label>
 						<Form.Control
+							className="sm-4 mb-3"
 							as="textarea"
 							rows={1}
 							type="text"
-							placeholder="Nombre del Ave"
+							placeholder="Bird Name"
 							required
-							onChange={e => setNombreave(e.target.value)}
+							value={birdName}
+							onChange={e => setBirdName(e.target.value)}
 						/>
-						<Form.Label>Localizacion</Form.Label>
 						<Form.Control
+							className="sm-4 mb-3"
 							as="textarea"
 							rows={1}
 							type="text"
-							placeholder="Localizacion"
+							placeholder="Localization"
 							required
-							onChange={e => setLocalizacion(e.target.value)}
+							value={localization}
+							onChange={e => setLocalization(e.target.value)}
 						/>
-						<Form.Label>Descripcion</Form.Label>
 						<Form.Control
+							className="sm-4 mb-3"
 							as="textarea"
 							rows={1}
 							type="text"
-							placeholder="Descripcion"
+							placeholder="Description"
 							required
-							onChange={e => setDescripcion(e.target.value)}
+							value={description}
+							onChange={e => setDescription(e.target.value)}
 						/>
-						<Form.Label>Tiempo</Form.Label>
 						<Form.Control
+							className="sm-4 mb-3"
 							as="textarea"
 							rows={1}
 							type="text"
-							placeholder="Tiempo"
+							placeholder="Time"
 							required
-							onChange={e => setTiempo(e.target.value)}
+							value={time}
+							onChange={e => setTime(e.target.value)}
 						/>
 					</Form.Group>
-				</Form>
-				<FormGroup className="mx-sm-4 pb-3">
-					<Button className="btn btn-block signin" onClick={() => handleClick()}>
+
+					<InputGroup className="mb-3">
+						<InputGroup.Prepend>
+							<InputGroup.Checkbox
+								aria-label="Checkbox for following text input"
+								onClick={e => (e.target.value === "on" ? setPrivacy(true) : setPrivacy(false))}
+							/>
+						</InputGroup.Prepend>
+						<Form.Label>Make Public</Form.Label>
+					</InputGroup>
+
+					<Button
+						variant="primary"
+						type="submit"
+						className="btn btn-block signin"
+						onClick={() => handleClick()}>
 						Submit
 					</Button>
-				</FormGroup>
+				</Form>
 			</Container>
 		</div>
 	);

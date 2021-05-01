@@ -12,12 +12,15 @@ export const Register = () => {
 	const [fname, setFirstName] = useState("");
 	const [lname, setLastName] = useState("");
 	const [email, setEmail] = useState("");
+	const [bio, setBio] = useState("");
 
 	const [pass, setPassword] = useState("");
 	const history = useHistory();
 	useEffect(() => {
 		if (store.register) {
+			console.log(store.register);
 			alert("Username was created successfully");
+			actions.setRegister();
 			history.push("/");
 		}
 	});
@@ -35,6 +38,7 @@ export const Register = () => {
 								type="text"
 								className="form-control"
 								placeholder="First Name"
+								required
 								onChange={e => setFirstName(e.target.value)}
 							/>
 						</FormGroup>
@@ -43,6 +47,7 @@ export const Register = () => {
 								type="text"
 								className="form-control"
 								placeholder="Last Name"
+								required
 								onChange={e => setLastName(e.target.value)}
 							/>
 						</FormGroup>
@@ -51,6 +56,7 @@ export const Register = () => {
 								type="text"
 								className="form-control"
 								placeholder="E-mail"
+								required
 								onChange={e => setEmail(e.target.value)}
 							/>
 						</FormGroup>
@@ -60,14 +66,23 @@ export const Register = () => {
 								type="password"
 								className="form-control"
 								placeholder="Password"
+								required
 								onChange={e => setPassword(e.target.value)}
 							/>
 						</FormGroup>
+						<Form.Group className="mx-sm-4 pb-3">
+							<Form.Control
+								as="textarea"
+								rows={3}
+								placeholder="Write something about yourself"
+								onChange={e => setBio(e.target.value)}
+							/>
+						</Form.Group>
 						<FormGroup className="mx-sm-4 pb-3">
 							<Button
 								className="btn btn-block signin"
 								onClick={() => {
-									actions.registerValidation(fname, lname, email, pass);
+									actions.registerValidation(fname, lname, email, pass, bio);
 								}}>
 								Register
 							</Button>

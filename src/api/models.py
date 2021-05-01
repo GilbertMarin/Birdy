@@ -9,7 +9,7 @@ class User(db.Model):
     last_name = db.Column(db.String(50),  unique=False, nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
     password = db.Column(db.String(80), unique=False, nullable=False)
-    is_active = db.Column(db.Boolean(), unique=False, nullable=False)
+    bio = db.Column(db.String(500), unique=False, nullable=False)
     bird_capture = db.relationship('Bird_Capture', backref='user', lazy=True) # One to Many
     audio_favorite = db.relationship('Audio_Favorite', backref='user', lazy=True) # One to Many
 
@@ -21,7 +21,8 @@ class User(db.Model):
             "id": self.id,
             "first_name": self.first_name,
             "last_name": self.last_name,
-            "email": self.email
+            "email": self.email, 
+            "bio":self.bio
             # do not serialize the password, its a security breach
         }
     
@@ -43,7 +44,7 @@ class Bird_Capture(db.Model):
     cnt = db.Column(db.String(50), unique=False, nullable=False) # Country
     loc = db.Column(db.String(200), unique=False, nullable=False) # Location
     time = db.Column(db.String(50), unique=False, nullable=False) # Time the bird was captured
-    rmk = db.Column(db.String(300), unique=False, nullable=False) # Description
+    rmk = db.Column(db.String(500), unique=False, nullable=False) # Description
     public = db.Column(db.Boolean(), unique=False, nullable=False) # public True/False
     user_id = db.Column(db.Integer, db.ForeignKey('user.id')) # ID to wich this bird capture belongs
 

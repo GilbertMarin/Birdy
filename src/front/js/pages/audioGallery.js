@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import ReactAudioPlayer from "react-audio-player";
 
 import { Context } from "../store/appContext";
@@ -15,6 +15,9 @@ import { NavbarBirdy } from "../component/navbar";
 export const AudioGallery = () => {
 	const { store, actions } = useContext(Context);
 	const [search, setSearch] = useState("");
+	const history = useHistory();
+
+	const activeUser = JSON.parse(sessionStorage.getItem("activeUser"));
 
 	useEffect(() => {
 		actions.getBirds();
@@ -25,7 +28,7 @@ export const AudioGallery = () => {
 		<>
 			<NavbarBirdy />
 			<div className="container">
-				{!store.isPending ? (
+				{activeUser && activeUser != "" && activeUser !== undefined && activeUser !== null ? (
 					<div>
 						<InputGroup className="pb-4">
 							<FormControl
@@ -61,13 +64,11 @@ export const AudioGallery = () => {
 						</Container>
 					</div>
 				) : (
-					<div>
-						<Image
-							className="w-25 mt-5"
-							src="https://media.giphy.com/media/3o7aCWH0iwyew3cLwQ/giphy.gif"
-							roundedCircle
-						/>
-					</div>
+					<Image
+						className="w-25 mt-5"
+						src="https://media.giphy.com/media/3o7aCWH0iwyew3cLwQ/giphy.gif"
+						roundedCircle
+					/>
 				)}
 			</div>
 		</>

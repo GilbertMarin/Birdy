@@ -78,7 +78,8 @@ def create_token():
         "access_token": access_token,
         "email": user.email,
         "first_name": user.first_name,
-        "last_name": user.last_name
+        "last_name": user.last_name,
+        "bio": user.bio
     }
 
     return jsonify(response_body)
@@ -100,7 +101,7 @@ def add_user():
     if user is None:
 
         # Build a new instance of User, passing the parameters from the request.body
-        user = User(first_name=request_body["first_name"], last_name=request_body["last_name"], email=request_body["email"], password=request_body["password"], is_active=request_body["is_active"])
+        user = User(first_name=request_body["first_name"], last_name=request_body["last_name"], email=request_body["email"], password=request_body["password"], bio=request_body["bio"])
 
         # Append the the instance into the database session of the API
         db.session.add(user)

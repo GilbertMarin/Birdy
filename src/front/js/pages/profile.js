@@ -17,15 +17,22 @@ library.add(fab, faCheckSquare, faCoffee);
 
 export const Profile = () => {
 	const { store, actions } = useContext(Context);
+	const activeUser = JSON.parse(sessionStorage.getItem("activeUser"));
+	console.log("Active user on sessionStorage from profile: ", activeUser);
 
-	console.log("esta pendiente ", store.isPending);
+	// useEffect(() => {
+	// 	actions.getPrivateCaptures();
+	// }, []);
 
 	return (
 		<>
 			<NavbarBirdy />
 			<div className="fondo">
 				<div className="container bootstrap snippets bootdey">
-					{store.activeUser ? (
+					{store.activeUser &&
+					store.activeUser != "" &&
+					store.activeUser !== undefined &&
+					store.activeUser !== null ? (
 						<div className="row">
 							<div className="profile-nav col-md-3 mt-5">
 								<div className="panel">
@@ -39,8 +46,8 @@ export const Profile = () => {
 											/>
 										</a>
 										<div className="texto1 mt-5">
-											<p>{store.activeUser.first_name}</p>
-											<p>{store.activeUser.email}</p>
+											<p>{activeUser.first_name}</p>
+											<p>{activeUser.email}</p>
 											<div className="social">
 												<a className="fab fa-facebook fa-2x" href="http://www.facebook.com/" />
 												<a
@@ -59,27 +66,27 @@ export const Profile = () => {
 										eventKey="Personal Information"
 										title="Personal Information"
 										className="texto2 mt-5">
-										<p>First Name: {store.activeUser.first_name}</p>
-										<p>Last Name: {store.activeUser.last_name}</p>
-										<p>Email: {store.activeUser.email}</p>
-										<Form>
-											<Form.Group controlId="exampleForm.ControlTextarea1">
-												<Form.Label>Bio</Form.Label>
-												<Form.Control as="textarea" rows={3} />
-											</Form.Group>
-										</Form>
+										<p>First Name: {activeUser.first_name}</p>
+										<p>Last Name: {activeUser.last_name}</p>
+										<p>Email: {activeUser.email}</p>
+										<p>Bio: {activeUser.bio}</p>
 									</Tab>
 									<Tab eventKey="Favorites" title="Favorites" />
-									<Tab eventKey="Bitácora" title="Bitácora">
+									<Tab eventKey="Repository" title="Repository">
+										List of captures
+									</Tab>
+									<Tab eventKey="Capture" title="Capture">
 										<Logdetails />
 									</Tab>
 								</Tabs>
 							</div>
 						</div>
 					) : (
-						<div>
-							<Image src="https://media.giphy.com/media/xTcnSMB8VXjTox23zW/giphy.gif" roundedCircle />
-						</div>
+						<Image
+							className="w-25 mt-5"
+							src="https://media.giphy.com/media/3o7aCWH0iwyew3cLwQ/giphy.gif"
+							roundedCircle
+						/>
 					)}
 				</div>
 			</div>
