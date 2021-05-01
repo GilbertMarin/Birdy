@@ -12,6 +12,7 @@ import { Navbar } from "./component/navbar";
 import { Footer } from "./component/footer";
 import { AudioGallery } from "./pages/audioGallery";
 import { SocialGallery } from "./pages/socialGallery";
+import { ResePassword } from "./pages/resetpassword";
 
 //create your first component
 const Layout = () => {
@@ -41,6 +42,9 @@ const Layout = () => {
 						</Route>
 						<Route exact path="/socialGallery">
 							<SocialGallery />
+						</Route>
+						<Route exact path="/reset_password/:token">
+							<ResePassword />
 						</Route>
 						<Route path="*">
 							<h1>Not found!</h1>
