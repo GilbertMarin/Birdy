@@ -14,6 +14,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			birdsRaw: [],
 			birdSounds: [],
 			publicBirdCaptures: [],
+			privateBirdCaptures: [],
 			url: "https://www.xeno-canto.org/api/2/recordings?query=cnt%3A%22Costa%20Rica%22",
 			heroku: "https://mighty-plateau-65231.herokuapp.com/",
 			newURL: process.env.BACKEND_URL,
@@ -44,7 +45,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 					body: JSON.stringify({
 						cnt: pais,
 						en: nombreave,
-						user_id: 1,
 						loc: localizacion,
 						privacy: privacy,
 						rmk: descripcion,
@@ -56,6 +56,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					})
 					.then(data => {
 						console.log("POST from Birdcapture", data);
+						getActions().getPrivateBirdCaptures();
 					})
 
 					.catch(err => {
@@ -210,6 +211,41 @@ const getState = ({ getStore, getActions, setStore }) => {
 					.catch(err => {
 						console.error(err.message);
 						setStore({ publicBirdCaptures: [], isPending: true, error: true });
+					});
+			},
+
+			getPrivateBirdCaptures: () => {
+				const store = getStore();
+				const token = sessionStorage.getItem("token");
+				console.log("Token inside publicCaptures", token);
+
+				const opts = {
+					method: "GET",
+					headers: {
+						"Content-Type": "application/json",
+						Authorization: "Bearer " + token
+					}
+				};
+
+				fetch(`${store.newURL}/bird_captures`, opts)
+					.then(res => {
+						if (!res.ok) {
+							// the "the throw Error will send the error to the "catch"
+							throw Error("Could not fetch the data for that resource");
+						}
+						return res.json();
+					})
+					.then(data => {
+						// Restore the state for the error once the data is fetched.
+						// Once you receive the data change the state of isPending and the message vanish
+						// specify on data
+						console.log("This came from /bird_captures: ", data);
+						setStore({ privateBirdCaptures: data, isPending: false, error: null });
+						// getActions().getSounds();
+					})
+					.catch(err => {
+						console.error(err.message);
+						setStore({ privateBirdCaptures: [], isPending: true, error: true });
 					});
 			}
 		}

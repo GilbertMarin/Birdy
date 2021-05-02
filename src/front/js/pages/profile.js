@@ -21,10 +21,6 @@ export const Profile = () => {
 	const activeUser = JSON.parse(sessionStorage.getItem("activeUser"));
 	console.log("Active user on sessionStorage from profile: ", activeUser);
 
-	// useEffect(() => {
-	// 	actions.getPrivateCaptures();
-	// }, []);
-
 	return (
 		<>
 			<NavbarBirdy />

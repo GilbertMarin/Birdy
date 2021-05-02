@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useContext } from "react";
 import { PropTypes } from "prop-types";
 import { Context } from "../store/appContext";
-import { SocialCard } from "./socialCard";
+import { CaptureCard } from "./captureCard";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
@@ -39,7 +39,7 @@ export const RenderGallery = ({ birds }) => {
 								})
 								.map((bird, index) => (
 									<Col xs={12} md={6} lg={4} key={index}>
-										<SocialCard
+										<CaptureCard
 											name={bird.en}
 											country={bird.cnt}
 											location={bird.loc}
