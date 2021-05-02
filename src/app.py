@@ -177,7 +177,7 @@ def add_capture():
 
     # current_user_id = get_jwt_identity()
     request_body = request.get_json()
-    bird_capture = Bird_Capture(en=request_body["en"], cnt=request_body["cnt"], loc=request_body["loc"], time=request_body["time"], rmk=request_body["rmk"], public=request_body["public"], user_id=request_body["user_id"])
+    bird_capture = Bird_Capture(en=request_body["en"], cnt=request_body["cnt"], loc=request_body["loc"], time=request_body["time"], rmk=request_body["rmk"], privacy=request_body["privacy"], user_id=request_body["user_id"])
 
     # Append the the instance into the database session of the API
     db.session.add(bird_capture)

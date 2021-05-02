@@ -21,7 +21,7 @@ class Service:
 
     def get_public_captures():
    
-        public_captures = Bird_Capture.query.filter_by(public=True).all()
+        public_captures = Bird_Capture.query.filter_by(privacy=True).all()
         public_captures = list(map(lambda x: x.serialize(), public_captures)) 
             
         return public_captures
