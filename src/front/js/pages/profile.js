@@ -12,6 +12,7 @@ import { fab } from "@fortawesome/free-brands-svg-icons";
 import { faCheckSquare, faCoffee } from "@fortawesome/free-solid-svg-icons";
 import { Logdetails } from "../component/logDetails";
 import { NavbarBirdy } from "../component/navbar";
+import { PrivateGallery } from "../component/privateGallery";
 
 library.add(fab, faCheckSquare, faCoffee);
 
@@ -20,19 +21,12 @@ export const Profile = () => {
 	const activeUser = JSON.parse(sessionStorage.getItem("activeUser"));
 	console.log("Active user on sessionStorage from profile: ", activeUser);
 
-	// useEffect(() => {
-	// 	actions.getPrivateCaptures();
-	// }, []);
-
 	return (
 		<>
 			<NavbarBirdy />
 			<div className="fondo">
 				<div className="container bootstrap snippets bootdey">
-					{store.activeUser &&
-					store.activeUser != "" &&
-					store.activeUser !== undefined &&
-					store.activeUser !== null ? (
+					{activeUser && activeUser != "" && activeUser !== undefined && activeUser !== null ? (
 						<div className="row">
 							<div className="profile-nav col-md-3 mt-5">
 								<div className="panel">
@@ -72,8 +66,8 @@ export const Profile = () => {
 										<p>Bio: {activeUser.bio}</p>
 									</Tab>
 									<Tab eventKey="Favorites" title="Favorites" />
-									<Tab eventKey="Repository" title="Repository">
-										List of captures
+									<Tab eventKey="Private Gallery" title="Private Gallery">
+										<PrivateGallery />
 									</Tab>
 									<Tab eventKey="Capture" title="Capture">
 										<Logdetails />
