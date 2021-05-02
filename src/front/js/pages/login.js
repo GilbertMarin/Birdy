@@ -2,7 +2,6 @@ import React, { useState, useEffect, useContext } from "react";
 import { Link, useParams, useHistory } from "react-router-dom";
 import { Context } from "../store/appContext";
 import {
-	Alert,
 	Container,
 	Button,
 	InputGroup,
@@ -32,33 +31,53 @@ export const Login = () => {
 		swal("We going to help you with your password restore", {
 			content: {
 				element: "input",
+
 				attributes: {
 					placeholder: "Type your Email",
 					type: "text"
 				}
 			}
-		}).then(value => {
-			if (value.includes("@") && value.includes(".")) {
-				swal("Nice!", "Please check your email inbox!", "success");
-			} else {
-				swal("oopps!!", "Wrong Email, please verify!", "error");
-			}
-		});
+		})
+			.then(value => {
+				if (value.includes("@") && value.includes(".")) {
+					swal("Nice!", "Please check your email inbox!", "success");
+					const opts = {
+						method: "POST",
+						headers: {
+							"Content-Type": "application/json"
+						},
+						body: JSON.stringify({
+							email: value
+						})
+					};
+
+					fetch(`${store.newURL}/restore`, opts)
+						.then(res => {
+							if (!res.ok) {
+								// the "the throw Error will send the error to the "catch"
+								throw Error("Could not fetch the data for that resource");
+							}
+							return res.json();
+						})
+
+						.catch(err => {
+							console.error(err.message);
+						});
+				} else {
+					swal("oopps!!", "Wrong Email, please verify!", "error");
+				}
+			})
+			.then(() => {});
 	};
 
 	const handleClick = () => {
-		if (user == "" || pass == "" || user == undefined || pass == undefined) {
-			alert("Bad email or password");
-		} else {
-			actions.loginValidation(user, pass);
-		}
-
+		if (user == "" || pass == "" || user == undefined || pass == undefined) alert("Bad email or password");
+		else actions.loginValidation(user, pass);
 		// Pass login parameters to make a fetch to the back end.
 	};
 
 	// Every time it finds a token into the storage it will redirect to /home page
-	if (store.activeUser && store.activeUser != "" && store.activeUser !== undefined && store.activeUser !== null)
-		history.push("/audioGallery");
+	if (store.token && store.token != "" && store.token != undefined && store.token != null) history.push("/home");
 
 	return (
 		<>

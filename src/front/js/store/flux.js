@@ -179,6 +179,32 @@ const getState = ({ getStore, getActions, setStore }) => {
 				setStore({ register: false });
 			},
 
+			reset_Password: () => {
+				fetch(`${store.newURL}/`, {
+					method: "PUT",
+					headers: {
+						"Content-Type": "application/json"
+					},
+					body: JSON.stringify({
+						first_name: firstname,
+						last_name: lastname,
+						email: email,
+						password: password,
+						is_active: false
+					})
+				})
+					.then(resp => {
+						return resp.json();
+					})
+					.then(data => {
+						setStore({ register: true });
+					})
+
+					.catch(err => {
+						console.log("error", err);
+					});
+			},
+
 			getPublicBirdCaptures: () => {
 				const store = getStore();
 				const token = sessionStorage.getItem("token");
