@@ -344,7 +344,7 @@ def index():
     </table>
    
 </body>
-</html>""".format(link="https://3000-plum-sailfish-6xymnh0z.ws-us04.gitpod.io/reset_password/"+ token)
+</html>""".format(link="https://3000-black-swift-g7rpu57m.ws-us03.gitpod.io/reset_password/"+ token)
 
     mail.send(msg)
 
@@ -362,7 +362,6 @@ def confirm_email(token):
         return jsonify({"msg": "Token is not valid", "valid":False}), 401
 
     return jsonify({"email": email, "valid":True}), 200
-
 
 
 

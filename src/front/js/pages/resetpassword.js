@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Link, useParams, useHistory } from "react-router-dom";
+import { Context } from "../store/appContext";
 import {
 	Container,
 	Button,
@@ -14,10 +15,11 @@ import {
 } from "react-bootstrap";
 
 export const ResetPassword = () => {
+	const { store, actions } = useContext(Context);
 	let { token } = useParams();
 	console.log("estoy en resetpassword func", token);
 	useEffect(() => {
-		fetch(`https://3001-plum-sailfish-6xymnh0z.ws-us04.gitpod.io/confirm_email/${token}`)
+		fetch(`${store.newURL}/confirm_email/${token}`)
 			.then(resp => {
 				return resp.json();
 			})
