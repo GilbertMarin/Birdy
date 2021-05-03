@@ -101,16 +101,16 @@ const getState = ({ getStore, getActions, setStore }) => {
 						// Once you receive the data change the state of isPending and the message vanish
 						console.log("This came from API, FAVORITES GET: ", data);
 
-						setStore({ favorites: data });
+						setStore({ favorites: data, isPending: false, error: null });
 						console.log("Favorites [] on getFavorites: ", store.favorites);
 					})
 					.catch(err => {
 						console.error(err.message);
-						setStore({ favorites: [] });
+						setStore({ favorites: [], isPending: true, error: err });
 					});
 			},
 
-			deleteFavorite: sound => {
+			deleteFavorite: id => {
 				const store = getStore();
 				const token = sessionStorage.getItem("token");
 
@@ -122,7 +122,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					}
 				};
 
-				fetch(`${store.newURL}/favorites/${sound}`, opts)
+				fetch(`${store.newURL}/favorites/${id}`, opts)
 					.then(res => {
 						if (!res.ok) {
 							// the "the throw Error will send the erro to the "catch"

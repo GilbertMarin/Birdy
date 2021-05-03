@@ -13,21 +13,28 @@ import Col from "react-bootstrap/Col";
 
 export const AudioCard = ({ name, country, location, time, sound }) => {
 	const { store, actions } = useContext(Context);
+	//const [favorite, setFavorite] = useState(false);
 
 	let favoriteNameArray = store.favorites.map(item => item["url_sound"]);
 	let isFavorite = favoriteNameArray.includes(sound);
+	//setFavorite(isFavorite);
 
 	//let favoriteFlag = true;
 	const handleClickFavorite = () => {
 		if (isFavorite) {
-            // passed an id and not a sound.
-			//actions.deleteFavorite(sound);
-			console.log("Called deleteFavorite");
+			let favoriteIds = store.favorites.filter(item => {
+				if (item["url_sound"] === sound) return item["id"];
+			});
 
+			// passed an id and not a sound.
+			actions.deleteFavorite(favoriteIds[0].id);
+			console.log("Called deleteFavorite on ID: ", favoriteIds[0].id);
 			isFavorite = false;
+			console.log("favoriteIcon is: ", isFavorite);
 		} else {
 			actions.addFavorite(sound);
 			isFavorite = true;
+			console.log("favoriteIcon is: ", isFavorite);
 		}
 	};
 

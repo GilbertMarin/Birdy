@@ -220,7 +220,7 @@ def add_audio_favorite():
 @app.route('/favorites/<int:position>', methods=['DELETE'])
 @jwt_required()
 def delete_favorite(position):
-    audio_favorite = Audio_Favorite.query.filter_by(url_sound=position).first()
+    audio_favorite = Audio_Favorite.query.filter_by(id=position).first()
     # favorite = Favorite.query.get(position)
 
     if audio_favorite is None:

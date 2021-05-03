@@ -12,6 +12,7 @@ import { NavbarBirdy } from "../component/navbar";
 import { PrivateGallery } from "../component/privateGallery";
 
 import "../../styles/profile.scss";
+import { FavoritesGallery } from "../component/favoritesGallery";
 
 library.add(fab, faCheckSquare, faCoffee);
 
@@ -64,7 +65,9 @@ export const Profile = () => {
 										<p>Email: {activeUser.email}</p>
 										<p>Bio: {activeUser.bio}</p>
 									</Tab>
-									<Tab eventKey="Favorites" title="Favorites" />
+									<Tab eventKey="Favorites" title="Favorites">
+										<FavoritesGallery />
+									</Tab>
 									<Tab eventKey="Private Gallery" title="Private Gallery">
 										<PrivateGallery />
 									</Tab>

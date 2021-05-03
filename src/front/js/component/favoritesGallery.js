@@ -11,55 +11,33 @@ import Image from "react-bootstrap/Image";
 import InputGroup from "react-bootstrap/InputGroup";
 import FormControl from "react-bootstrap/FormControl";
 import { NavbarBirdy } from "../component/navbar";
+import Card from "react-bootstrap/Card";
 
-export const AudioGallery = () => {
+export const FavoritesGallery = () => {
 	const { store, actions } = useContext(Context);
 	const [search, setSearch] = useState("");
 	const history = useHistory();
+	let favoritesBirds = null;
 
 	const activeUser = JSON.parse(sessionStorage.getItem("activeUser"));
 
-	useEffect(() => {
-		actions.getFavorites();
-		actions.getBirds();
-	}, []);
-
 	return (
 		<>
-			<NavbarBirdy />
 			<div className="container">
-				{!store.isPending ? (
+				{activeUser ? (
 					<div>
-						<InputGroup className="pb-4">
-							<FormControl
-								placeholder="Search..."
-								value={search}
-								onChange={e => {
-									setSearch(e.target.value);
-								}}
-							/>
-						</InputGroup>
 						<Container>
 							<Row>
-								{store.birdsRaw
-									.filter(bird => {
-										if (search == "") {
-											return bird;
-										} else if (bird.en.toLowerCase().includes(search.toLowerCase())) {
-											return bird;
-										}
-									})
-									.map((bird, index) => (
-										<Col xs={12} md={6} lg={4} key={index}>
-											<AudioCard
-												name={bird.en}
-												country={bird.cnt}
-												location={bird.loc}
-												time={bird.time}
-												sound={store.birdSounds[index]}
-											/>
-										</Col>
-									))}
+								{store.favorites.map((bird, index) => (
+									<Card className="card p-2 m-4" key={index}>
+										<Card.Header className="d-flex justify-content-between">
+											<Card.Title>{bird.id}</Card.Title>
+										</Card.Header>
+										<Card.Body>
+											<ReactAudioPlayer className="audio p-2" src={bird.url_sound} controls />
+										</Card.Body>
+									</Card>
+								))}
 							</Row>
 						</Container>
 					</div>
