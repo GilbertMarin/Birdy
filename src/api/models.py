@@ -79,10 +79,6 @@ class Bird_Capture(db.Model):
 class Audio_Favorite(db.Model):
     __tablename__ = 'audio_favorite'
     id = db.Column(db.Integer, primary_key=True)
-    en = db.Column(db.String(50), unique=False, nullable=False) # English name
-    cnt = db.Column(db.String(50), unique=False, nullable=False) # Country
-    loc = db.Column(db.String(200), unique=False, nullable=False) # Location
-    time = db.Column(db.String(50), unique=False, nullable=False) # Time the bird was captured
     url_sound = db.Column(db.String(200), unique=False, nullable=False) # mp3 bird sound
     user_id = db.Column(db.Integer, db.ForeignKey('user.id')) 
     
@@ -92,11 +88,6 @@ class Audio_Favorite(db.Model):
     def serialize(self):
         return {
             "id": self.id,
-            "en": self.en,
-            "cnt": self.cnt,
-            "loc": self.loc,
-            "time": self.time,
             "url_sound": self.url_sound
-
             # do not serialize the password, its a security breach
         }

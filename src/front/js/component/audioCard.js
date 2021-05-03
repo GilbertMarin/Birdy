@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import ReactAudioPlayer from "react-audio-player";
 import { PropTypes } from "prop-types";
 import "../../styles/audioCard.scss";
@@ -13,15 +13,31 @@ import Col from "react-bootstrap/Col";
 
 export const AudioCard = ({ name, country, location, time, sound }) => {
 	const { store, actions } = useContext(Context);
-	let favoriteFlag = store.favorites.find(item => item == sound);
+
+	let favoriteNameArray = store.favorites.map(item => item["url_sound"]);
+	let isFavorite = favoriteNameArray.includes(sound);
+
 	//let favoriteFlag = true;
+	const handleClickFavorite = () => {
+		if (isFavorite) {
+            // passed an id and not a sound.
+			//actions.deleteFavorite(sound);
+			console.log("Called deleteFavorite");
+
+			isFavorite = false;
+		} else {
+			actions.addFavorite(sound);
+			isFavorite = true;
+		}
+	};
 
 	return (
 		<Card className="card p-2 m-4">
 			<Card.Header className="d-flex justify-content-between">
 				<Card.Title>{name}</Card.Title>
-				<Button variant="outline-primary" onClick={() => actions.addFavorite(sound)}>
-					<i className={favoriteFlag ? "fas fa-heart" : "far fa-heart"} />
+
+				<Button variant="outline-primary" onClick={() => handleClickFavorite()}>
+					<i className={isFavorite ? "fas fa-heart" : "far fa-heart"} />
 				</Button>
 			</Card.Header>
 			<Card.Body>

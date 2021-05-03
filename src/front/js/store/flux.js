@@ -36,8 +36,112 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 			addFavorite: sound => {
 				const store = getStore();
-				setStore({ favorites: store.favorites.concat(sound) });
-				console.log(store.favorites);
+				//setStore({ favorites: store.favorites.concat(sound) });
+				console.log("Favorites [] on addFavorites: ", store.favorites);
+
+				const token = sessionStorage.getItem("token");
+				console.log("Item passed as parameter to addFavorite(): ", sound);
+
+				const opts = {
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+						Authorization: "Bearer " + token
+					},
+					body: JSON.stringify({
+						url_sound: sound,
+						user_id: token
+					})
+				};
+
+				fetch(`${store.newURL}/favorites`, opts)
+					.then(res => {
+						if (!res.ok) {
+							// the "the throw Error will send the erro to the "catch"
+							throw Error("Could not fetch the data for FAVORITES RESOURSE");
+						}
+						console.log("Succesfull https code adding favorite", res);
+						return res.json();
+					})
+					.then(data => {
+						// Restore the state for the error once the data is fetched.
+						// Once you receive the data change the state of isPending and the message vanish
+						console.log("This came from API, add FAVORITE POST: ", data);
+
+						getActions().getFavorites();
+					})
+					.catch(err => {
+						console.error(err.message);
+						setStore({ favorites: [] });
+					});
+			},
+
+			getFavorites: () => {
+				const store = getStore();
+				const token = sessionStorage.getItem("token");
+
+				const opts = {
+					method: "GET",
+					headers: {
+						"Content-Type": "application/json",
+						Authorization: "Bearer " + token
+					}
+				};
+
+				fetch(`${store.newURL}/favorites`, opts)
+					.then(res => {
+						if (!res.ok) {
+							// the "the throw Error will send the erro to the "catch"
+							throw Error("Could not fetch the data for FAVORITES RESOURCE");
+						}
+						return res.json();
+					})
+					.then(data => {
+						// Restore the state for the error once the data is fetched.
+						// Once you receive the data change the state of isPending and the message vanish
+						console.log("This came from API, FAVORITES GET: ", data);
+
+						setStore({ favorites: data });
+						console.log("Favorites [] on getFavorites: ", store.favorites);
+					})
+					.catch(err => {
+						console.error(err.message);
+						setStore({ favorites: [] });
+					});
+			},
+
+			deleteFavorite: sound => {
+				const store = getStore();
+				const token = sessionStorage.getItem("token");
+
+				const opts = {
+					method: "DELETE",
+					headers: {
+						"Content-Type": "application/json",
+						Authorization: "Bearer " + token
+					}
+				};
+
+				fetch(`${store.newURL}/favorites/${sound}`, opts)
+					.then(res => {
+						if (!res.ok) {
+							// the "the throw Error will send the erro to the "catch"
+							throw Error("Could not fetch the data for DELETE RESOURSE");
+						}
+						console.log("Succesfull https code DELETING favorite", res);
+						return res.json();
+					})
+					.then(data => {
+						// Restore the state for the error once the data is fetched.
+						// Once you receive the data change the state of isPending and the message vanish
+						console.log("This came from API, DELETE FAVORITE: ", data);
+						getActions().getFavorites();
+						// setStore({ favorites: newFavorites });
+					})
+					.catch(err => {
+						console.error(err.message);
+						setStore({ favorites: [] });
+					});
 			},
 
 			addBirdCapture: (pais, nombreave, localizacion, descripcion, tiempo, privacy) => {

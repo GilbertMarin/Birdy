@@ -21,7 +21,7 @@ export const AudioGallery = () => {
 
 	useEffect(() => {
 		actions.getBirds();
-		console.log(store.activeUser);
+		actions.getFavorites();
 	}, []);
 
 	return (
