@@ -8,13 +8,18 @@ import Nav from "react-bootstrap/Nav";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import FormControl from "react-bootstrap/FormControl";
+import birdy from "../../img/birdy.png";
+
+import home from "../../styles/home.scss";
 
 export const NavbarBirdy = () => {
 	const { store, actions } = useContext(Context);
 	return (
-		<Navbar bg="light" expand="lg" className="mb-4">
+		<Navbar bg="light" expand="lg" className="navbar mb-4">
 			<Navbar.Brand>
-				<Link to="/home">Birdy</Link>
+				<a href="/home" className="navbar-brand">
+					<img src={birdy} className="logoHome d-inline-block align-top" />
+				</a>
 			</Navbar.Brand>
 			<Navbar.Toggle aria-controls="basic-navbar-nav" />
 			<Navbar.Collapse id="basic-navbar-nav">
