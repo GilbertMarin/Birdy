@@ -28,7 +28,7 @@ export const AudioGallery = () => {
 		<>
 			<NavbarBirdy />
 			<div className="container">
-				{activeUser && activeUser != "" && activeUser !== undefined && activeUser !== null ? (
+				{!store.isPending ? (
 					<div>
 						<InputGroup className="pb-4">
 							<FormControl

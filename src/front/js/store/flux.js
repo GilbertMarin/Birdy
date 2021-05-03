@@ -15,6 +15,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			birdSounds: [],
 			publicBirdCaptures: [],
 			privateBirdCaptures: [],
+			favorites: [],
 			url: "https://www.xeno-canto.org/api/2/recordings?query=cnt%3A%22Costa%20Rica%22",
 			heroku: "https://mighty-plateau-65231.herokuapp.com/",
 			newURL: process.env.BACKEND_URL,
@@ -32,6 +33,13 @@ const getState = ({ getStore, getActions, setStore }) => {
 				if (token && token != "" && token != undefined) setStore({ token: token });
 				console.log("current token on SYNC: ", store.token);
 			},
+
+			addFavorite: sound => {
+				const store = getStore();
+				setStore({ favorites: store.favorites.concat(sound) });
+				console.log(store.favorites);
+			},
+
 			addBirdCapture: (pais, nombreave, localizacion, descripcion, tiempo, privacy) => {
 				const store = getStore();
 				const token = store.token;
