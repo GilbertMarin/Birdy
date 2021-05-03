@@ -16,10 +16,10 @@ import {
 } from "react-bootstrap";
 import { Register } from "./register";
 import "../../styles/login.scss";
-import first from "../../img/primer.jpg";
-import second from "../../img/Segundo.jpg";
-import third from "../../img/tercero.jpg";
-import fourth from "../../img/cuarto.jpg";
+import comment1 from "../../img/comment1.png";
+import comment2 from "../../img/comment2.png";
+import comment3 from "../../img/comment3.png";
+import comment4 from "../../img/comment4.png";
 import swal from "sweetalert";
 
 export const Login = () => {
@@ -65,7 +65,7 @@ export const Login = () => {
 			<Carousel>
 				<Carousel.Item>
 					<Image
-						src="https://birdy7.webnode.cr/_files/200000000-a77eba77ee/700/primer.jpg"
+						src={comment1}
 						rounded
 						//alt={key}
 						className="d-block w-50"
@@ -75,7 +75,7 @@ export const Login = () => {
 				</Carousel.Item>
 				<Carousel.Item>
 					<Image
-						src="https://birdy7.webnode.cr/_files/200000001-3029d3029f/700/Segundo.jpg"
+						src={comment2}
 						rounded
 						//alt={key}
 						className="d-block w-50"
@@ -85,7 +85,7 @@ export const Login = () => {
 				</Carousel.Item>
 				<Carousel.Item>
 					<Image
-						src="https://birdy7.webnode.cr/_files/200000002-dc777dc779/700/tercero.jpg"
+						src={comment3}
 						rounded
 						//alt={key}
 						className="d-block w-50"
@@ -95,7 +95,7 @@ export const Login = () => {
 				</Carousel.Item>
 				<Carousel.Item>
 					<Image
-						src="https://birdy7.webnode.cr/_files/200000003-2a5e62a5e9/700/cuarto.jpg"
+						src={comment4}
 						rounded
 						//alt={key}
 						className="d-block w-50"
