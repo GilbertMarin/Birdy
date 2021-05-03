@@ -1,18 +1,17 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Context } from "../store/appContext";
 import { Link } from "react-router-dom";
-import Tabs from "react-bootstrap/Tabs";
-import Tab from "react-bootstrap/Tab";
-import { FormGroup, Form, FormLabel, FormControl } from "react-bootstrap";
-import Image from "react-bootstrap/Image";
-import fondo from "../../img/fondo.png";
-import "../../styles/profile.scss";
+
+import { FormGroup, Form, FormLabel, FormControl, Tabs, Tab, Image } from "react-bootstrap";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { fab } from "@fortawesome/free-brands-svg-icons";
 import { faCheckSquare, faCoffee } from "@fortawesome/free-solid-svg-icons";
+
 import { Logdetails } from "../component/logDetails";
 import { NavbarBirdy } from "../component/navbar";
 import { PrivateGallery } from "../component/privateGallery";
+
+import "../../styles/profile.scss";
 
 library.add(fab, faCheckSquare, faCoffee);
 

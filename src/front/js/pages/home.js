@@ -14,16 +14,11 @@ export const Home = () => {
 			<div className="header">
 				<div className="container pt-5">
 					<section className="row">
-						<div className="col-sm hero-text d-none d-lg-block">
-							<h1>Messy Bookmark Bar?</h1>
-							<h2 className="mt-5 yellow-star">
-								Keep Acces To Your Online Courses Organized And Updated{" "}
-								<strong>
-									<em>In One Place</em>
-								</strong>
-							</h2>
+						<div className="textBird">
+							<h1>Bird Watchers Club</h1>
+							<h2 className="textDiscover">Discover the songs of the most exotic birds</h2>
 						</div>
-						<div className="col-sm">
+						<div className="logoPrincipal">
 							<img className="logo" src={logoPrincipal} />
 						</div>
 					</section>

@@ -24,20 +24,20 @@ export const NavbarBirdy = () => {
 			<Navbar.Toggle aria-controls="basic-navbar-nav" />
 			<Navbar.Collapse id="basic-navbar-nav">
 				<Nav className="ml-auto">
-					<Link to="/audioGallery" className="pt-2 pr-3 text-decoration-none">
+					<Link to="/audioGallery" className="textNavbar pt-2 pr-3 text-decoration-none">
 						Audio Gallery
 					</Link>
 
-					<Link to="/socialGallery" className="pt-2 pr-3 text-decoration-none">
+					<Link to="/socialGallery" className="textNavbar pt-2 pr-3 text-decoration-none">
 						Social Gallery
 					</Link>
 
-					<Link to="/profile" className="pt-2 pr-3 text-decoration-none">
+					<Link to="/profile" className="textNavbar pt-2 pr-3 text-decoration-none">
 						Profile
 					</Link>
 
 					<Link to="/">
-						<Button variant="primary" onClick={() => actions.logout()}>
+						<Button className="textNavbar" variant="primary" onClick={() => actions.logout()}>
 							Log out
 						</Button>
 					</Link>
