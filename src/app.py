@@ -344,7 +344,7 @@ def index():
     </table>
    
 </body>
-</html>""".format(link="https://3001-plum-sailfish-6xymnh0z.ws-us04.gitpod.io/reset_password/"+ token)
+</html>""".format(link="https://3000-plum-sailfish-6xymnh0z.ws-us04.gitpod.io/reset_password/"+ token)
 
     mail.send(msg)
 

@@ -186,11 +186,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 						"Content-Type": "application/json"
 					},
 					body: JSON.stringify({
-						first_name: firstname,
-						last_name: lastname,
 						email: email,
-						password: password,
-						is_active: false
+						password: password
 					})
 				})
 					.then(resp => {
