@@ -78,8 +78,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 			getFavorites: () => {
 				const store = getStore();
-				const token = sessionStorage.getItem("token");
-
+				const token = store.token;
+				console.log("Token inside getFavorites(): ", token);
 				const opts = {
 					method: "GET",
 					headers: {
@@ -234,11 +234,10 @@ const getState = ({ getStore, getActions, setStore }) => {
 					})
 					.then(data => {
 						setStore({ activeUser: data });
-						console.log("ActiveUser from flux", store.activeUser);
-
-						sessionStorage.setItem("activeUser", JSON.stringify(data));
 						setStore({ token: data.access_token });
 						sessionStorage.setItem("token", data.access_token);
+						sessionStorage.setItem("activeUser", JSON.stringify(data));
+						console.log("ActiveUser from flux", store.activeUser);
 					})
 
 					.catch(err => {

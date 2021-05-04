@@ -17,8 +17,6 @@ export const AudioGallery = () => {
 	const [search, setSearch] = useState("");
 	const history = useHistory();
 
-	const activeUser = JSON.parse(sessionStorage.getItem("activeUser"));
-
 	useEffect(() => {
 		actions.getFavorites();
 		actions.getBirds();
