@@ -292,7 +292,7 @@ def index():
                     <tr>
                         <td style="text-align:center;">
                           <a href="https://rakeshmandal.com" title="logo" target="_blank">
-                            <img width="60" src="https://i.ibb.co/hL4XZp2/android-chrome-192x192.png" title="logo" alt="logo">
+                            <img width="60" src="https://birdy7.webnode.cr/_files/200000006-c623bc623e/450/birdy.png" title="logo" alt="logo">
                           </a>
                         </td>
                     </tr>
@@ -363,7 +363,18 @@ def confirm_email(token):
 
     return jsonify({"email": email, "valid":True}), 200
 
-
+@app.route('/newPassword',methods=['PUT'])
+@jwt_required()
+def newPassword(password):
+    current_user_id = get_jwt_identity()
+    user = User.query.get(current_user_id)
+    request_body = request.get_json()
+    newPass=request_body['password']
+    if user is None:
+        raise APIException('user not found', status_code=404)
+    user.password=newPass
+    db.session.commit()
+    return jsonify("Contraseña cambiada con exito"), 200    
 
 
 # this only runs if `$ python src/main.py` is executed

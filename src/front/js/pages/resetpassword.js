@@ -16,6 +16,7 @@ import {
 
 export const ResetPassword = () => {
 	const { store, actions } = useContext(Context);
+	const [pass, setPass] = useState("");
 	let { token } = useParams();
 	console.log("estoy en resetpassword func", token);
 	useEffect(() => {
@@ -42,10 +43,13 @@ export const ResetPassword = () => {
 								className="form-control"
 								placeholder="New Password"
 								onChange={e => setPass(e.target.value)}
+								required
 							/>
 						</FormGroup>
 						<FormGroup className="mx-sm-4 pb-3">
-							<Button className="btn btn-block signin" onClick={() => reset_Password()}>
+							<Button
+								className="btn btn-block signin"
+								onClick={() => actions.reset_Password(pass, token)}>
 								Restore
 							</Button>
 						</FormGroup>

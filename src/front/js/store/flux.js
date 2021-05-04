@@ -179,22 +179,24 @@ const getState = ({ getStore, getActions, setStore }) => {
 				setStore({ register: false });
 			},
 
-			reset_Password: () => {
-				fetch(`${store.newURL}/`, {
+			reset_Password: (pass, token) => {
+				const store = getStore();
+				fetch(`${store.newURL}/newPassword`, {
 					method: "PUT",
 					headers: {
-						"Content-Type": "application/json"
+						"Content-Type": "application/json",
+
+						Authorization: "Bearer " + token
 					},
 					body: JSON.stringify({
-						email: email,
-						password: password
+						password: pass
 					})
 				})
 					.then(resp => {
 						return resp.json();
 					})
 					.then(data => {
-						setStore({ register: true });
+						console.log("this came from password", data);
 					})
 
 					.catch(err => {
