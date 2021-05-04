@@ -12,6 +12,7 @@ import InputGroup from "react-bootstrap/InputGroup";
 import FormControl from "react-bootstrap/FormControl";
 import { NavbarBirdy } from "../component/navbar";
 import Card from "react-bootstrap/Card";
+import Button from "react-bootstrap/Button";
 
 export const FavoritesGallery = () => {
 	const { store, actions } = useContext(Context);
@@ -20,6 +21,10 @@ export const FavoritesGallery = () => {
 	let favoritesBirds = null;
 
 	const activeUser = JSON.parse(sessionStorage.getItem("activeUser"));
+
+	useEffect(() => {
+		actions.getFavorites();
+	}, []);
 
 	return (
 		<>
@@ -32,6 +37,11 @@ export const FavoritesGallery = () => {
 									<Card className="card p-2 m-4" key={index}>
 										<Card.Header className="d-flex justify-content-between">
 											<Card.Title>{bird.id}</Card.Title>
+											<Button
+												variant="outline-danger"
+												onClick={() => actions.deleteFavorite(bird.id)}>
+												<i className="fas fa-times" />
+											</Button>
 										</Card.Header>
 										<Card.Body>
 											<ReactAudioPlayer className="audio p-2" src={bird.url_sound} controls />
