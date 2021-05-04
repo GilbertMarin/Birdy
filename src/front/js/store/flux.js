@@ -15,6 +15,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			birdSounds: [],
 			publicBirdCaptures: [],
 			privateBirdCaptures: [],
+			favorites: [],
 			url: "https://www.xeno-canto.org/api/2/recordings?query=cnt%3A%22Costa%20Rica%22",
 			heroku: "https://mighty-plateau-65231.herokuapp.com/",
 			newURL: process.env.BACKEND_URL,
@@ -32,6 +33,117 @@ const getState = ({ getStore, getActions, setStore }) => {
 				if (token && token != "" && token != undefined) setStore({ token: token });
 				console.log("current token on SYNC: ", store.token);
 			},
+
+			addFavorite: (sound, id) => {
+				const store = getStore();
+				//setStore({ favorites: store.favorites.concat(sound) });
+				console.log("Favorites [] on addFavorites: ", store.favorites);
+
+				const token = sessionStorage.getItem("token");
+				console.log("Item passed as parameter to addFavorite(): ", sound);
+
+				const opts = {
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+						Authorization: "Bearer " + token
+					},
+					body: JSON.stringify({
+						url_sound: sound,
+						bird_id: id,
+						user_id: token
+					})
+				};
+
+				fetch(`${store.newURL}/favorites`, opts)
+					.then(res => {
+						if (!res.ok) {
+							// the "the throw Error will send the erro to the "catch"
+							throw Error("Could not fetch the data for FAVORITES RESOURSE");
+						}
+						console.log("Succesfull https code adding favorite", res);
+						return res.json();
+					})
+					.then(data => {
+						// Restore the state for the error once the data is fetched.
+						// Once you receive the data change the state of isPending and the message vanish
+						console.log("This came from API, add FAVORITE POST: ", data);
+
+						getActions().getFavorites();
+					})
+					.catch(err => {
+						console.error(err.message);
+						setStore({ favorites: [] });
+					});
+			},
+
+			getFavorites: () => {
+				const store = getStore();
+				const token = store.token;
+				console.log("Token inside getFavorites(): ", token);
+				const opts = {
+					method: "GET",
+					headers: {
+						"Content-Type": "application/json",
+						Authorization: "Bearer " + token
+					}
+				};
+
+				fetch(`${store.newURL}/favorites`, opts)
+					.then(res => {
+						if (!res.ok) {
+							// the "the throw Error will send the erro to the "catch"
+							throw Error("Could not fetch the data for FAVORITES RESOURCE");
+						}
+						return res.json();
+					})
+					.then(data => {
+						// Restore the state for the error once the data is fetched.
+						// Once you receive the data change the state of isPending and the message vanish
+						console.log("This came from API, FAVORITES GET: ", data);
+
+						setStore({ favorites: data, isPending: false, error: null });
+						console.log("Favorites [] on getFavorites: ", store.favorites);
+					})
+					.catch(err => {
+						console.error(err.message);
+						setStore({ favorites: [], isPending: true, error: err });
+					});
+			},
+
+			deleteFavorite: id => {
+				const store = getStore();
+				const token = sessionStorage.getItem("token");
+
+				const opts = {
+					method: "DELETE",
+					headers: {
+						"Content-Type": "application/json",
+						Authorization: "Bearer " + token
+					}
+				};
+
+				fetch(`${store.newURL}/favorites/${id}`, opts)
+					.then(res => {
+						if (!res.ok) {
+							// the "the throw Error will send the erro to the "catch"
+							throw Error("Could not fetch the data for DELETE RESOURSE");
+						}
+						console.log("Succesfull https code DELETING favorite", res);
+						return res.json();
+					})
+					.then(data => {
+						// Restore the state for the error once the data is fetched.
+						// Once you receive the data change the state of isPending and the message vanish
+						console.log("This came from API, DELETE FAVORITE: ", data);
+						getActions().getFavorites();
+					})
+					.catch(err => {
+						console.error(err.message);
+						setStore({ favorites: [] });
+					});
+			},
+
 			addBirdCapture: (pais, nombreave, localizacion, descripcion, tiempo, privacy) => {
 				const store = getStore();
 				const token = store.token;
@@ -64,41 +176,68 @@ const getState = ({ getStore, getActions, setStore }) => {
 					});
 			},
 
-			getBirds: () => {
+			// getBirds: () => {
+			// 	const store = getStore();
+			// 	fetch(store.heroku + store.url)
+			// 		.then(res => {
+			// 			if (!res.ok) {
+			// 				// the "the throw Error will send the error to the "catch"
+			// 				throw Error("Could not fetch the data for that resource");
+			// 			}
+			// 			return res.json();
+			// 		})
+			// 		.then(data => {
+			// 			// Restore the state for the error once the data is fetched.
+			// 			// Once you receive the data change the state of isPending and the message vanish
+			// 			// specify on data.recordings for the array
+			// 			setStore({ birdsRaw: data.recordings, error: null });
+
+			// 			getActions().getSounds();
+			// 		})
+			// 		.catch(err => {
+			// 			console.error(err.message);
+			// 			setStore({ birdsRaw: [], isPending: true, error: true });
+			// 		});
+			// },
+
+			getBirds: async () => {
 				const store = getStore();
-				fetch(store.heroku + store.url)
-					.then(res => {
-						if (!res.ok) {
-							// the "the throw Error will send the error to the "catch"
-							throw Error("Could not fetch the data for that resource");
-						}
-						return res.json();
-					})
-					.then(data => {
-						// Restore the state for the error once the data is fetched.
-						// Once you receive the data change the state of isPending and the message vanish
-						// specify on data.recordings for the array
-						setStore({ birdsRaw: data.recordings, isPending: false, error: null });
-						getActions().getSounds();
-					})
-					.catch(err => {
-						console.error(err.message);
-						setStore({ birdsRaw: [], isPending: true, error: true });
-					});
+
+				try {
+					// Await for the fetch
+
+					const resp = await fetch(store.heroku + store.url);
+					if (resp.status !== 200) {
+						alert("There has been some error");
+						return false;
+					}
+
+					// Await for the response
+					const data = await resp.json();
+					console.log("This came from the backend", data);
+
+					setStore({ birdsRaw: data.recordings });
+					getActions().getSounds();
+					return true;
+				} catch {
+					console.error("There has been an error login in");
+				}
 			},
 
 			getSounds: () => {
 				const store = getStore();
 				let arrayDeCadenas, uri, encodeFileName, mp3;
+
 				let soundsArray = store.birdsRaw.map(bird => {
 					arrayDeCadenas = bird.sono["small"].split("ffts");
 					uri = bird["file-name"];
 					encodeFileName = encodeURI(uri);
 					mp3 = arrayDeCadenas[0] + encodeFileName;
-					return mp3;
-				});
 
-				setStore({ birdSounds: soundsArray });
+					return { url_sound: mp3, id: bird.id };
+				});
+				console.log("Bird sounds: ", soundsArray);
+				setStore({ birdSounds: soundsArray, isPending: false });
 			},
 			loginValidation: (user, password) => {
 				const store = getStore();
@@ -122,11 +261,10 @@ const getState = ({ getStore, getActions, setStore }) => {
 					})
 					.then(data => {
 						setStore({ activeUser: data });
-						console.log("ActiveUser from flux", store.activeUser);
-
-						sessionStorage.setItem("activeUser", JSON.stringify(data));
 						setStore({ token: data.access_token });
 						sessionStorage.setItem("token", data.access_token);
+						sessionStorage.setItem("activeUser", JSON.stringify(data));
+						console.log("ActiveUser from flux", store.activeUser);
 					})
 
 					.catch(err => {

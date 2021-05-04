@@ -16,19 +16,18 @@ export const AudioGallery = () => {
 	const { store, actions } = useContext(Context);
 	const [search, setSearch] = useState("");
 	const history = useHistory();
-
-	const activeUser = JSON.parse(sessionStorage.getItem("activeUser"));
-
+	const token = sessionStorage.getItem("token");
 	useEffect(() => {
+		actions.getFavorites();
 		actions.getBirds();
-		console.log(store.activeUser);
+		console.log("Inside array birdSounds: ", store.birdSounds);
 	}, []);
 
 	return (
 		<>
 			<NavbarBirdy />
 			<div className="container">
-				{activeUser && activeUser != "" && activeUser !== undefined && activeUser !== null ? (
+				{!store.isPending && token && store.birdSounds.length > 0 ? (
 					<div>
 						<InputGroup className="pb-4">
 							<FormControl
@@ -52,11 +51,12 @@ export const AudioGallery = () => {
 									.map((bird, index) => (
 										<Col xs={12} md={6} lg={4} key={index}>
 											<AudioCard
+												id={bird.id}
 												name={bird.en}
 												country={bird.cnt}
 												location={bird.loc}
 												time={bird.time}
-												sound={store.birdSounds[index]}
+												sound={store.birdSounds[index].url_sound}
 											/>
 										</Col>
 									))}

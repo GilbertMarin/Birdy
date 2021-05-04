@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: b4b4544c1d4d
+Revision ID: 5038d71ea23a
 Revises: 
-Create Date: 2021-05-03 05:56:04.635626
+Create Date: 2021-05-04 17:34:32.142553
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = 'b4b4544c1d4d'
+revision = '5038d71ea23a'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -30,11 +30,8 @@ def upgrade():
     )
     op.create_table('audio_favorite',
     sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('en', sa.String(length=50), nullable=False),
-    sa.Column('cnt', sa.String(length=50), nullable=False),
-    sa.Column('loc', sa.String(length=200), nullable=False),
-    sa.Column('time', sa.String(length=50), nullable=False),
     sa.Column('url_sound', sa.String(length=200), nullable=False),
+    sa.Column('bird_id', sa.String(length=50), nullable=False),
     sa.Column('user_id', sa.Integer(), nullable=True),
     sa.ForeignKeyConstraint(['user_id'], ['user.id'], ),
     sa.PrimaryKeyConstraint('id')

@@ -12,6 +12,7 @@ import { NavbarBirdy } from "../component/navbar";
 import { PrivateGallery } from "../component/privateGallery";
 
 import "../../styles/profile.scss";
+import { FavoritesGallery } from "../component/favoritesGallery";
 
 library.add(fab, faCheckSquare, faCoffee);
 
@@ -29,25 +30,31 @@ export const Profile = () => {
 						<div className="row">
 							<div className="profile-nav col-md-3 mt-5">
 								<div className="panel">
-									<div className="user-heading round">
-										<a href="#">
-											<img
-												src="https://www.dzoom.org.es/wp-content/uploads/2020/02/portada-foto-perfil-redes-sociales-consejos-810x540.jpg"
-												alt=""
-												width="200px"
-												height="150px"
-											/>
-										</a>
-										<div className="texto1 mt-5">
+									<div className="user-heading">
+										<img
+											className="rounded"
+											src="https://www.dzoom.org.es/wp-content/uploads/2020/02/portada-foto-perfil-redes-sociales-consejos-810x540.jpg"
+											alt=""
+											width="200px"
+											height="150px"
+										/>
+
+										<div className="texto1 mt-5 ml-4">
 											<p>{activeUser.first_name}</p>
 											<p>{activeUser.email}</p>
 											<div className="social">
-												<a className="fab fa-facebook fa-2x" href="http://www.facebook.com/" />
 												<a
-													className="fab fa-instagram fa-2x"
+													className="fab fa-facebook fa-2x mr-2 text-decoration-none"
+													href="http://www.facebook.com/"
+												/>
+												<a
+													className="fab fa-instagram fa-2x mr-2 text-decoration-none"
 													href="http://www.instagram.com/"
 												/>
-												<a className="fab fa-twitter fa-2x" href="http://www.twitter.com/" />
+												<a
+													className="fab fa-twitter fa-2x mr-2 text-decoration-none"
+													href="http://www.twitter.com/"
+												/>
 											</div>
 										</div>
 									</div>
@@ -64,7 +71,9 @@ export const Profile = () => {
 										<p>Email: {activeUser.email}</p>
 										<p>Bio: {activeUser.bio}</p>
 									</Tab>
-									<Tab eventKey="Favorites" title="Favorites" />
+									<Tab eventKey="Favorites" title="Favorites">
+										<FavoritesGallery />
+									</Tab>
 									<Tab eventKey="Private Gallery" title="Private Gallery">
 										<PrivateGallery />
 									</Tab>
