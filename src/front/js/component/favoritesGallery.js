@@ -18,7 +18,8 @@ export const FavoritesGallery = () => {
 	const { store, actions } = useContext(Context);
 	const [search, setSearch] = useState("");
 	const history = useHistory();
-	let favoritesBirds = null;
+
+	let favoriteIdArray = store.favorites.map(item => item["bird_id"]);
 
 	const activeUser = JSON.parse(sessionStorage.getItem("activeUser"));
 
@@ -33,20 +34,28 @@ export const FavoritesGallery = () => {
 					<div>
 						<Container>
 							<Row>
-								{store.favorites.map((bird, index) => (
-									<Card className="card p-2 m-4" key={index}>
-										<Card.Header className="d-flex justify-content-between">
-											<Card.Title>{bird.id}</Card.Title>
-											<Button
-												variant="outline-danger"
-												onClick={() => actions.deleteFavorite(bird.id)}>
-												<i className="fas fa-times" />
-											</Button>
-										</Card.Header>
-										<Card.Body>
-											<ReactAudioPlayer className="audio p-2" src={bird.url_sound} controls />
-										</Card.Body>
-									</Card>
+								{store.birdsRaw.filter(bird => favoriteIdArray.includes(bird.id)).map((bird, index) => (
+									<Col xs={12} lg={6} key={index}>
+										<Card className="card p-2 m-4" key={index}>
+											<Card.Header className="d-flex justify-content-between">
+												<Card.Title>{bird.en}</Card.Title>
+												<span>
+													<p className="text-muted">#{bird.id}</p>
+												</span>
+												<Button
+													variant="outline-danger"
+													onClick={() => actions.deleteFavorite(bird.id)}>
+													<i className="fas fa-times" />
+												</Button>
+											</Card.Header>
+											<Card.Body>
+												<Card.Text>Country: {bird.cnt}</Card.Text>
+												<Card.Text>Location: {bird.loc}</Card.Text>
+												<Card.Text>Hour: {bird.time} </Card.Text>
+												<ReactAudioPlayer className="audio p-2" src={bird.url_sound} controls />
+											</Card.Body>
+										</Card>
+									</Col>
 								))}
 							</Row>
 						</Container>

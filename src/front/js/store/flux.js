@@ -34,7 +34,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				console.log("current token on SYNC: ", store.token);
 			},
 
-			addFavorite: sound => {
+			addFavorite: (sound, id) => {
 				const store = getStore();
 				//setStore({ favorites: store.favorites.concat(sound) });
 				console.log("Favorites [] on addFavorites: ", store.favorites);
@@ -50,6 +50,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					},
 					body: JSON.stringify({
 						url_sound: sound,
+						bird_id: id,
 						user_id: token
 					})
 				};
@@ -136,7 +137,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 						// Once you receive the data change the state of isPending and the message vanish
 						console.log("This came from API, DELETE FAVORITE: ", data);
 						getActions().getFavorites();
-						// setStore({ favorites: newFavorites });
 					})
 					.catch(err => {
 						console.error(err.message);
@@ -176,41 +176,68 @@ const getState = ({ getStore, getActions, setStore }) => {
 					});
 			},
 
-			getBirds: () => {
+			// getBirds: () => {
+			// 	const store = getStore();
+			// 	fetch(store.heroku + store.url)
+			// 		.then(res => {
+			// 			if (!res.ok) {
+			// 				// the "the throw Error will send the error to the "catch"
+			// 				throw Error("Could not fetch the data for that resource");
+			// 			}
+			// 			return res.json();
+			// 		})
+			// 		.then(data => {
+			// 			// Restore the state for the error once the data is fetched.
+			// 			// Once you receive the data change the state of isPending and the message vanish
+			// 			// specify on data.recordings for the array
+			// 			setStore({ birdsRaw: data.recordings, error: null });
+
+			// 			getActions().getSounds();
+			// 		})
+			// 		.catch(err => {
+			// 			console.error(err.message);
+			// 			setStore({ birdsRaw: [], isPending: true, error: true });
+			// 		});
+			// },
+
+			getBirds: async () => {
 				const store = getStore();
-				fetch(store.heroku + store.url)
-					.then(res => {
-						if (!res.ok) {
-							// the "the throw Error will send the error to the "catch"
-							throw Error("Could not fetch the data for that resource");
-						}
-						return res.json();
-					})
-					.then(data => {
-						// Restore the state for the error once the data is fetched.
-						// Once you receive the data change the state of isPending and the message vanish
-						// specify on data.recordings for the array
-						setStore({ birdsRaw: data.recordings, isPending: false, error: null });
-						getActions().getSounds();
-					})
-					.catch(err => {
-						console.error(err.message);
-						setStore({ birdsRaw: [], isPending: true, error: true });
-					});
+
+				try {
+					// Await for the fetch
+
+					const resp = await fetch(store.heroku + store.url);
+					if (resp.status !== 200) {
+						alert("There has been some error");
+						return false;
+					}
+
+					// Await for the response
+					const data = await resp.json();
+					console.log("This came from the backend", data);
+
+					setStore({ birdsRaw: data.recordings });
+					getActions().getSounds();
+					return true;
+				} catch {
+					console.error("There has been an error login in");
+				}
 			},
 
 			getSounds: () => {
 				const store = getStore();
 				let arrayDeCadenas, uri, encodeFileName, mp3;
+
 				let soundsArray = store.birdsRaw.map(bird => {
 					arrayDeCadenas = bird.sono["small"].split("ffts");
 					uri = bird["file-name"];
 					encodeFileName = encodeURI(uri);
 					mp3 = arrayDeCadenas[0] + encodeFileName;
-					return mp3;
-				});
 
-				setStore({ birdSounds: soundsArray });
+					return { url_sound: mp3, id: bird.id };
+				});
+				console.log("Bird sounds: ", soundsArray);
+				setStore({ birdSounds: soundsArray, isPending: false });
 			},
 			loginValidation: (user, password) => {
 				const store = getStore();

@@ -11,28 +11,28 @@ import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 
-export const AudioCard = ({ name, country, location, time, sound }) => {
+export const AudioCard = ({ id, name, country, location, time, sound }) => {
 	const { store, actions } = useContext(Context);
 	//const [favorite, setFavorite] = useState(false);
 
-	let favoriteNameArray = store.favorites.map(item => item["url_sound"]);
-	let isFavorite = favoriteNameArray.includes(sound);
+	let favoriteNameArray = store.favorites.map(item => item["bird_id"]);
+	let isFavorite = favoriteNameArray.includes(id);
 	//setFavorite(isFavorite);
 
 	//let favoriteFlag = true;
 	const handleClickFavorite = () => {
 		if (isFavorite) {
-			let favoriteIds = store.favorites.filter(item => {
-				if (item["url_sound"] === sound) return item["id"];
-			});
+			// let favoriteIds = store.favorites.filter(item => {
+			// 	if (item["url_sound"] === sound) return item["id"];
+			// });
 
 			// passed an id and not a sound.
-			actions.deleteFavorite(favoriteIds[0].id);
-			console.log("Called deleteFavorite on ID: ", favoriteIds[0].id);
+			actions.deleteFavorite(id);
+			console.log("Called deleteFavorite on ID: ", id);
 			isFavorite = false;
 			console.log("favoriteIcon is: ", isFavorite);
 		} else {
-			actions.addFavorite(sound);
+			actions.addFavorite(sound, id);
 			isFavorite = true;
 			console.log("favoriteIcon is: ", isFavorite);
 		}
@@ -42,7 +42,9 @@ export const AudioCard = ({ name, country, location, time, sound }) => {
 		<Card className="card p-2 m-4">
 			<Card.Header className="d-flex justify-content-between">
 				<Card.Title>{name}</Card.Title>
-
+				<span>
+					<p className="text-muted">#{id}</p>
+				</span>
 				<Button variant="outline-primary" onClick={() => handleClickFavorite()}>
 					<i className={isFavorite ? "fas fa-heart" : "far fa-heart"} />
 				</Button>
@@ -50,7 +52,7 @@ export const AudioCard = ({ name, country, location, time, sound }) => {
 			<Card.Body>
 				<Card.Text>Country: {country}</Card.Text>
 				<Card.Text>Location: {location}</Card.Text>
-				<Card.Text>Time: {time}</Card.Text>
+				<Card.Text>Hour: {time} </Card.Text>
 				<ReactAudioPlayer className="audio p-2" src={sound} controls />
 			</Card.Body>
 		</Card>
@@ -58,6 +60,7 @@ export const AudioCard = ({ name, country, location, time, sound }) => {
 };
 
 AudioCard.propTypes = {
+	id: PropTypes.string,
 	name: PropTypes.string,
 	country: PropTypes.string,
 	location: PropTypes.string,

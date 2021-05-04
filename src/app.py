@@ -210,17 +210,17 @@ def add_audio_favorite():
     request_body = request.get_json()
     current_user_id = get_jwt_identity()
     # define an instance of Favorite
-    audio_favorite = Audio_Favorite(url_sound=request_body["url_sound"], user_id=current_user_id)
+    audio_favorite = Audio_Favorite(url_sound=request_body["url_sound"], bird_id=request_body["bird_id"], user_id=current_user_id)
     # save it on the database table for Favorites
     db.session.add(audio_favorite)
     db.session.commit()
     
     return jsonify(request_body), 200
 
-@app.route('/favorites/<int:position>', methods=['DELETE'])
+@app.route('/favorites/<string:id>', methods=['DELETE'])
 @jwt_required()
-def delete_favorite(position):
-    audio_favorite = Audio_Favorite.query.filter_by(id=position).first()
+def delete_favorite(id):
+    audio_favorite = Audio_Favorite.query.filter_by(bird_id=id).first()
     # favorite = Favorite.query.get(position)
 
     if audio_favorite is None:

@@ -80,6 +80,7 @@ class Audio_Favorite(db.Model):
     __tablename__ = 'audio_favorite'
     id = db.Column(db.Integer, primary_key=True)
     url_sound = db.Column(db.String(200), unique=False, nullable=False) # mp3 bird sound
+    bird_id = db.Column(db.String(50), unique=False, nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id')) 
     
     def __repr__(self):
@@ -88,6 +89,7 @@ class Audio_Favorite(db.Model):
     def serialize(self):
         return {
             "id": self.id,
-            "url_sound": self.url_sound
+            "url_sound": self.url_sound,
+            "bird_id": self.bird_id
             # do not serialize the password, its a security breach
         }
