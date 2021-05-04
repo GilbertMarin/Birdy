@@ -20,12 +20,20 @@ export const FavoritesGallery = () => {
 	const history = useHistory();
 
 	let favoriteIdArray = store.favorites.map(item => item["bird_id"]);
+	let favoriteSoundsArray = store.favorites.map(item => item["url_sound"]);
 
 	const activeUser = JSON.parse(sessionStorage.getItem("activeUser"));
 
 	useEffect(() => {
 		actions.getFavorites();
 	}, []);
+
+	const filterSound = id => {
+		let sound = store.favorites.filter(item => item.bird_id === id);
+
+		console.log(sound[0]);
+		return sound[0].url_sound;
+	};
 
 	return (
 		<>
@@ -36,7 +44,7 @@ export const FavoritesGallery = () => {
 							<Row>
 								{store.birdsRaw.filter(bird => favoriteIdArray.includes(bird.id)).map((bird, index) => (
 									<Col xs={12} lg={6} key={index}>
-										<Card className="card p-2 m-4" key={index}>
+										<Card className="card p-2 m-4">
 											<Card.Header className="d-flex justify-content-between">
 												<Card.Title>{bird.en}</Card.Title>
 												<span>
@@ -52,7 +60,14 @@ export const FavoritesGallery = () => {
 												<Card.Text>Country: {bird.cnt}</Card.Text>
 												<Card.Text>Location: {bird.loc}</Card.Text>
 												<Card.Text>Hour: {bird.time} </Card.Text>
-												<ReactAudioPlayer className="audio p-2" src={bird.url_sound} controls />
+												<ReactAudioPlayer
+													className="audio p-2"
+													src={
+														store.favorites.filter(item => item.bird_id === bird.id)[0]
+															.url_sound
+													}
+													controls
+												/>
 											</Card.Body>
 										</Card>
 									</Col>

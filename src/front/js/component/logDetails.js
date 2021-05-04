@@ -17,13 +17,10 @@ export const Logdetails = () => {
 	const [privacy, setPrivacy] = useState(false);
 
 	const handleClick = () => {
-		if (country == "" || birdName == "" || localization == "" || description == "" || time == "")
-			alert("Necesita completar todo los campos");
-		else {
-			actions.addBirdCapture(country, birdName, localization, description, time, privacy);
-			console.log(country, birdName, localization, description, time, privacy);
-			inputReset();
-		}
+		actions.addBirdCapture(country, birdName, localization, description, time, privacy);
+		console.log(country, birdName, localization, description, time, privacy);
+		alert("Your capture has been saved");
+		inputReset();
 
 		// Pass login parameters to make a fetch to the back end.
 	};

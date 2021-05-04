@@ -52,7 +52,7 @@ export const AudioCard = ({ id, name, country, location, time, sound }) => {
 			<Card.Body>
 				<Card.Text>Country: {country}</Card.Text>
 				<Card.Text>Location: {location}</Card.Text>
-				<Card.Text>Hour: {time} </Card.Text>
+				<Card.Text>Time: {time} </Card.Text>
 				<ReactAudioPlayer className="audio p-2" src={sound} controls />
 			</Card.Body>
 		</Card>
