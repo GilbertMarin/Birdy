@@ -190,6 +190,22 @@ def add_capture():
 
     return jsonify(response_body), 200
 
+@app.route('/bird_captures/<int:id>', methods=['DELETE'])
+@jwt_required()
+def delete_bird_capture(id):
+    bird_capture = Bird_Capture.query.filter_by(id=id).first()
+    # favorite = Favorite.query.get(position)
+
+    if bird_capture is None:
+        raise APIException('Bird capture not found', status_code=404)
+
+    db.session.delete(bird_capture)
+    db.session.commit()
+    response_body = {
+         "msg": "Bird Capture deleted successful",
+    }
+    return jsonify(response_body), 200
+
 # ------------------------------------------ Favorites Endpoints ------------------------------------------
 
 # Endpoint for getting all the favorites of the current user.

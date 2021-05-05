@@ -40,6 +40,7 @@ export const RenderGallery = ({ birds }) => {
 								.map((bird, index) => (
 									<Col xs={12} md={6} lg={4} key={index}>
 										<CaptureCard
+											id={bird.id}
 											name={bird.en}
 											country={bird.cnt}
 											location={bird.loc}

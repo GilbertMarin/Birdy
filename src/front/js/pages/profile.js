@@ -13,6 +13,8 @@ import { PrivateGallery } from "../component/privateGallery";
 
 import "../../styles/profile.scss";
 import { FavoritesGallery } from "../component/favoritesGallery";
+import profile from "../../img/profile.jpg";
+import lapaVectorWhite from "../../img/lapaVectorWhite.png";
 
 library.add(fab, faCheckSquare, faCoffee);
 
@@ -31,11 +33,7 @@ export const Profile = () => {
 							<div className="profile-nav col-md-3 mt-5">
 								<div className="panel">
 									<div className="user-heading">
-										<img
-											className="rounded profile-img"
-											src="https://www.dzoom.org.es/wp-content/uploads/2020/02/portada-foto-perfil-redes-sociales-consejos-810x540.jpg"
-											alt=""
-										/>
+										<Image className="profile-img " src={profile} roundedCircle />
 
 										<div className="texto1 mt-5 ml-4">
 											<p>{activeUser.first_name}</p>
@@ -58,6 +56,7 @@ export const Profile = () => {
 									</div>
 								</div>
 							</div>
+
 							<div className="profile-info col-md-9 mt-5">
 								<Tabs defaultActiveKey="Personal Information" id="uncontrolled-tab-example">
 									<Tab
@@ -79,6 +78,7 @@ export const Profile = () => {
 										<Logdetails />
 									</Tab>
 								</Tabs>
+								<Image className="profile-bird" src={lapaVectorWhite} />
 							</div>
 						</div>
 					) : (

@@ -27,7 +27,7 @@ body{
   }
 
   .title-image {
-    display: block;
+    display: none;
   }
 }
 
@@ -122,11 +122,6 @@ h1, h2, h3, h4, h5, h6 {
 }
 .signin:hover{
     color: white;
-}
-
-img{
-display:block;
-margin:auto;
 }
 
 .forgot{
