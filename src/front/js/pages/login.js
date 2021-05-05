@@ -26,6 +26,10 @@ import swal from "sweetalert";
 // Images importation
 import logo4 from "../../img/logo4.png";
 import birdVector1 from "../../img/birdVector1.png";
+import woodPecker from "../../img/woodPecker.png";
+import woodPecker2 from "../../img/woodPecker2.png";
+import birdsGroup from "../../img/birdsGroup.png";
+
 import pc1 from "../../img/pc1.png";
 import pc2 from "../../img/pc2.png";
 import pc3 from "../../img/pc3.png";
@@ -125,7 +129,7 @@ export const Login = () => {
 					</div>
 				</Container>
 			</section>
-
+			<Image className="birdsGroup" src={birdsGroup} alt="birdsGroup" />
 			<section id="testimonial">
 				<Carousel>
 					<Carousel.Item className="carousel-item">
@@ -154,10 +158,10 @@ export const Login = () => {
 					</Carousel.Item>
 				</Carousel>
 			</section>
-
 			<section id="login">
 				<Container>
 					<Row className="justify-content-center pt-5 mt-5 mr-1">
+						<Image className="woodPecker2" src={woodPecker2} alt="woodPecker" />
 						<Col className="col-md-4 formulary">
 							<Form action="">
 								<FormGroup className="text-center pb-3">
@@ -201,6 +205,7 @@ export const Login = () => {
 								</FormGroup>
 							</Form>
 						</Col>
+						<Image className="woodPecker" src={woodPecker} alt="woodPecker" />
 					</Row>
 				</Container>
 			</section>
