@@ -45,7 +45,7 @@ export const AudioCard = ({ id, name, country, location, time, sound }) => {
 					<p className="id-card">#{id}</p>
 				</span>
 				<OverlayTrigger placement="top" overlay={<Tooltip id="button-tooltip-2">Add to favorites</Tooltip>}>
-					<Button variant="outline-primary" onClick={() => handleClickFavorite()}>
+					<Button variant="outline-warning" onClick={() => handleClickFavorite()}>
 						<i className={isFavorite ? "fas fa-heart" : "far fa-heart"} />
 					</Button>
 				</OverlayTrigger>

@@ -22,8 +22,14 @@ import comment2 from "../../img/comment2.png";
 import comment3 from "../../img/comment3.png";
 import comment4 from "../../img/comment4.png";
 import swal from "sweetalert";
+
+// Images importation
 import logo4 from "../../img/logo4.png";
 import birdVector1 from "../../img/birdVector1.png";
+import pc1 from "../../img/pc1.png";
+import pc2 from "../../img/pc2.png";
+import pc3 from "../../img/pc3.png";
+import pc4 from "../../img/pc4.png";
 
 export const Login = () => {
 	const { store, actions } = useContext(Context);
@@ -105,7 +111,7 @@ export const Login = () => {
 
 					<div className="row">
 						<div className="col-lg-6">
-							<h1 className="big-heading">Keep track the birds you ve seen!!</h1>
+							<h1 className="big-heading">Keep track the birds you&apos;ve seen!!</h1>
 							<button type="button" className="btn btn-dark btn-lg download-button">
 								<i className="fab fa-apple" /> Download
 							</button>
@@ -122,45 +128,29 @@ export const Login = () => {
 
 			<section id="testimonial">
 				<Carousel>
-					<Carousel.Item>
-						<Image
-							src={comment1}
-							rounded
-							//alt={key}
-							className="d-block w-50"
-							width="200px"
-							height="400px"
-						/>
+					<Carousel.Item className="carousel-item">
+						<div className="comment-card rounded">
+							<h2 className="testimonial-text">
+								&quot;I suscribed to Birdy and now I can saved the songs of my favorite birds&quot;
+							</h2>
+							<div className="d-flex justify-content-center">
+								<Image className="testimonials-image" src={pc3} alt="woman-red" />
+								<em className="ml-3 mt-5">Katherine Rojas / Journalist</em>
+							</div>
+						</div>
 					</Carousel.Item>
-					<Carousel.Item>
-						<Image
-							src={comment2}
-							rounded
-							//alt={key}
-							className="d-block w-50"
-							width="200px"
-							height="400px"
-						/>
-					</Carousel.Item>
-					<Carousel.Item>
-						<Image
-							src={comment3}
-							rounded
-							//alt={key}
-							className="d-block w-50"
-							width="200px"
-							height="400px"
-						/>
-					</Carousel.Item>
-					<Carousel.Item>
-						<Image
-							src={comment4}
-							rounded
-							//alt={key}
-							className="d-block w-50"
-							width="200px"
-							height="400px"
-						/>
+
+					<Carousel.Item className="carousel-item">
+						<div className="comment-card rounded">
+							<h2 className="testimonial-text">
+								&quot;I&apos;am studying biology and with Birdy I learn the scientific names, locations
+								and songs of birds&quot;
+							</h2>
+							<div className="d-flex justify-content-center">
+								<Image className="testimonials-image" src={pc2} alt="woman-red" />
+								<em className="ml-3 mt-5">Sebastian Suarez / Student</em>
+							</div>
+						</div>
 					</Carousel.Item>
 				</Carousel>
 			</section>
