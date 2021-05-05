@@ -13,6 +13,8 @@ import { PrivateGallery } from "../component/privateGallery";
 
 import "../../styles/profile.scss";
 import { FavoritesGallery } from "../component/favoritesGallery";
+import profile from "../../img/profile.jpg";
+import lapaVectorWhite from "../../img/lapaVectorWhite.png";
 
 library.add(fab, faCheckSquare, faCoffee);
 
@@ -31,28 +33,22 @@ export const Profile = () => {
 							<div className="profile-nav col-md-3 mt-5">
 								<div className="panel">
 									<div className="user-heading">
-										<img
-											className="rounded"
-											src="https://www.dzoom.org.es/wp-content/uploads/2020/02/portada-foto-perfil-redes-sociales-consejos-810x540.jpg"
-											alt=""
-											width="200px"
-											height="150px"
-										/>
+										<Image className="profile-img " src={profile} roundedCircle />
 
 										<div className="texto1 mt-5 ml-4">
 											<p>{activeUser.first_name}</p>
 											<p>{activeUser.email}</p>
 											<div className="social">
 												<a
-													className="fab fa-facebook fa-2x mr-2 text-decoration-none"
+													className="fab fa-facebook fa-2x mr-4 text-decoration-none"
 													href="http://www.facebook.com/"
 												/>
 												<a
-													className="fab fa-instagram fa-2x mr-2 text-decoration-none"
+													className="fab fa-instagram fa-2x mr-4 text-decoration-none"
 													href="http://www.instagram.com/"
 												/>
 												<a
-													className="fab fa-twitter fa-2x mr-2 text-decoration-none"
+													className="fab fa-twitter fa-2x text-decoration-none"
 													href="http://www.twitter.com/"
 												/>
 											</div>
@@ -60,6 +56,7 @@ export const Profile = () => {
 									</div>
 								</div>
 							</div>
+
 							<div className="profile-info col-md-9 mt-5">
 								<Tabs defaultActiveKey="Personal Information" id="uncontrolled-tab-example">
 									<Tab
@@ -70,6 +67,7 @@ export const Profile = () => {
 										<p>Last Name: {activeUser.last_name}</p>
 										<p>Email: {activeUser.email}</p>
 										<p>Bio: {activeUser.bio}</p>
+										<Image className="profile-bird" src={lapaVectorWhite} />
 									</Tab>
 									<Tab eventKey="Favorites" title="Favorites">
 										<FavoritesGallery />

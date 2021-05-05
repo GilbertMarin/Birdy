@@ -3,16 +3,16 @@
     width: 350px;
     border-radius: 20px;
     //text-align: center;
-    background-color: white;
+    background: rgba(0, -0, -0, -.1);
 }
 
 .cardHeader{
     width: 330px;
     text-align: center;
-    background-color: white;
+    background-color: rgba(255, 255, 255, 0.22);
 }
 
-.buttonFav{
-   width: 150px;
-   align-items: center;
+.id-card{
+    color: rgba(255, 255, 255, 0.7);
 }
+

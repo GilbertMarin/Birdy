@@ -7,9 +7,8 @@ import { Context } from "../store/appContext";
 // React-Bootstrap
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
-import Container from "react-bootstrap/Container";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
+import OverlayTrigger from "react-bootstrap/OverlayTrigger";
+import Tooltip from "react-bootstrap/Tooltip";
 
 export const AudioCard = ({ id, name, country, location, time, sound }) => {
 	const { store, actions } = useContext(Context);
@@ -39,15 +38,17 @@ export const AudioCard = ({ id, name, country, location, time, sound }) => {
 	};
 
 	return (
-		<Card className="card p-2 m-4">
+		<Card className="card p-2 mb-2">
 			<Card.Header className="d-flex justify-content-between">
-				<Card.Title>{name}</Card.Title>
+				<Card.Title className="card-title">{name}</Card.Title>
 				<span>
-					<p className="text-muted">#{id}</p>
+					<p className="id-card">#{id}</p>
 				</span>
-				<Button variant="outline-primary" onClick={() => handleClickFavorite()}>
-					<i className={isFavorite ? "fas fa-heart" : "far fa-heart"} />
-				</Button>
+				<OverlayTrigger placement="top" overlay={<Tooltip id="button-tooltip-2">Add to favorites</Tooltip>}>
+					<Button variant="outline-warning" onClick={() => handleClickFavorite()}>
+						<i className={isFavorite ? "fas fa-heart" : "far fa-heart"} />
+					</Button>
+				</OverlayTrigger>
 			</Card.Header>
 			<Card.Body>
 				<Card.Text>Country: {country}</Card.Text>

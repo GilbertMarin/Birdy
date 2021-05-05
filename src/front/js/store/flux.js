@@ -176,29 +176,38 @@ const getState = ({ getStore, getActions, setStore }) => {
 					});
 			},
 
-			// getBirds: () => {
-			// 	const store = getStore();
-			// 	fetch(store.heroku + store.url)
-			// 		.then(res => {
-			// 			if (!res.ok) {
-			// 				// the "the throw Error will send the error to the "catch"
-			// 				throw Error("Could not fetch the data for that resource");
-			// 			}
-			// 			return res.json();
-			// 		})
-			// 		.then(data => {
-			// 			// Restore the state for the error once the data is fetched.
-			// 			// Once you receive the data change the state of isPending and the message vanish
-			// 			// specify on data.recordings for the array
-			// 			setStore({ birdsRaw: data.recordings, error: null });
+			deleteBirdCapture: id => {
+				const store = getStore();
+				const token = sessionStorage.getItem("token");
 
-			// 			getActions().getSounds();
-			// 		})
-			// 		.catch(err => {
-			// 			console.error(err.message);
-			// 			setStore({ birdsRaw: [], isPending: true, error: true });
-			// 		});
-			// },
+				const opts = {
+					method: "DELETE",
+					headers: {
+						"Content-Type": "application/json",
+						Authorization: "Bearer " + token
+					}
+				};
+
+				fetch(`${store.newURL}/bird_captures/${id}`, opts)
+					.then(res => {
+						if (!res.ok) {
+							// the "the throw Error will send the erro to the "catch"
+							throw Error("Could not fetch the data for DELETE RESOURSE");
+						}
+						console.log("Succesfull https code DELETING Bird Capture", res);
+						return res.json();
+					})
+					.then(data => {
+						// Restore the state for the error once the data is fetched.
+						// Once you receive the data change the state of isPending and the message vanish
+						console.log("This came from API, DELETE Bird Capture: ", data);
+						getActions().getPrivateBirdCaptures();
+					})
+					.catch(err => {
+						console.error(err.message);
+						setStore({ favorites: [] });
+					});
+			},
 
 			getBirds: async () => {
 				const store = getStore();
