@@ -17,10 +17,6 @@ import {
 } from "react-bootstrap";
 import { Register } from "./register";
 import "../../styles/login.scss";
-import comment1 from "../../img/comment1.png";
-import comment2 from "../../img/comment2.png";
-import comment3 from "../../img/comment3.png";
-import comment4 from "../../img/comment4.png";
 import swal from "sweetalert";
 
 // Images importation
@@ -115,7 +111,7 @@ export const Login = () => {
 
 					<div className="row">
 						<div className="col-lg-6">
-							<h1 className="big-heading">Keep track the birds you&apos;ve seen!!</h1>
+							<h1 className="big-heading">Keep track of the birds you&apos;ve seen!!</h1>
 							<button type="button" className="btn btn-dark btn-lg download-button">
 								<i className="fab fa-apple" /> Download
 							</button>

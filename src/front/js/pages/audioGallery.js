@@ -65,7 +65,7 @@ export const AudioGallery = () => {
 					</div>
 				) : (
 					<Image
-						className="w-25 mt-5"
+						className="w-25 mt-5 my-auto"
 						src="https://media.giphy.com/media/3o7aCWH0iwyew3cLwQ/giphy.gif"
 						roundedCircle
 					/>
