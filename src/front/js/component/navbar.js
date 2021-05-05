@@ -26,13 +26,13 @@ export const NavbarBirdy = () => {
 			<Navbar.Toggle aria-controls="basic-navbar-nav" />
 			<Navbar.Collapse id="basic-navbar-nav">
 				<Nav className="ml-auto">
-					<Link to="/audioGallery" className="nav-link-nav pt-2 pr-3 text-decoration-none">
+					<Link to="/audioGallery" className="nav-link-nav pt-2 pr-5 text-decoration-none">
 						Audio Gallery
 					</Link>
-					<Link to="/socialGallery" className="nav-link-nav pt-2 pr-3 text-decoration-none">
+					<Link to="/socialGallery" className="nav-link-nav pt-2 pr-5 text-decoration-none">
 						Social Gallery
 					</Link>
-					<Link to="/profile" className="nav-link-nav pt-2 pr-3 text-decoration-none">
+					<Link to="/profile" className="nav-link-nav pt-2 pr-5 text-decoration-none">
 						Profile
 					</Link>
 					<Link to="/">
