@@ -67,6 +67,7 @@ export const Profile = () => {
 										<p>Last Name: {activeUser.last_name}</p>
 										<p>Email: {activeUser.email}</p>
 										<p>Bio: {activeUser.bio}</p>
+										<Image className="profile-bird" src={lapaVectorWhite} />
 									</Tab>
 									<Tab eventKey="Favorites" title="Favorites">
 										<FavoritesGallery />
@@ -78,7 +79,6 @@ export const Profile = () => {
 										<Logdetails />
 									</Tab>
 								</Tabs>
-								<Image className="profile-bird" src={lapaVectorWhite} />
 							</div>
 						</div>
 					) : (

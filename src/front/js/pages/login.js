@@ -136,7 +136,7 @@ export const Login = () => {
 					<Carousel.Item className="carousel-item">
 						<div className="comment-card rounded">
 							<h2 className="testimonial-text">
-								&quot;I suscribed to Birdy and now I can saved the songs of my favorite birds&quot;
+								&quot;I suscribed to Birdy and now I can save the songs of my favorite birds.&quot;
 							</h2>
 							<div className="d-flex justify-content-center">
 								<Image className="testimonials-image" src={pc3} alt="woman-red" />
@@ -149,7 +149,7 @@ export const Login = () => {
 						<div className="comment-card rounded">
 							<h2 className="testimonial-text">
 								&quot;I&apos;am studying biology and with Birdy I learn the scientific names, locations
-								and songs of birds&quot;
+								and songs of birds.&quot;
 							</h2>
 							<div className="d-flex justify-content-center">
 								<Image className="testimonials-image" src={pc2} alt="studen-smiling" />
@@ -167,6 +167,18 @@ export const Login = () => {
 							<div className="d-flex justify-content-center">
 								<Image className="testimonials-image" src={pc4} alt="blond-man" />
 								<em className="ml-3 mt-5">Hans Krugger / Chef</em>
+							</div>
+						</div>
+					</Carousel.Item>
+
+					<Carousel.Item className="carousel-item">
+						<div className="comment-card rounded">
+							<h2 className="testimonial-text">
+								&quot;I like Birdy because is useful and easy to use.&quot;
+							</h2>
+							<div className="d-flex justify-content-center">
+								<Image className="testimonials-image" src={pc4} alt="blond-man" />
+								<em className="ml-3 mt-5">Karen Corrales / Singer Teacher</em>
 							</div>
 						</div>
 					</Carousel.Item>
