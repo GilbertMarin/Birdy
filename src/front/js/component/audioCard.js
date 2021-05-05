@@ -39,7 +39,7 @@ export const AudioCard = ({ id, name, country, location, time, sound }) => {
 	};
 
 	return (
-		<Card className="card p-2 m-4">
+		<Card className="card p-2 mb-2">
 			<Card.Header className="d-flex justify-content-between">
 				<Card.Title>{name}</Card.Title>
 				<span>

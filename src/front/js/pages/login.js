@@ -85,17 +85,17 @@ export const Login = () => {
 						<div className="collapse navbar-collapse" id="navbarSupportedContent">
 							<ul className="navbar-nav ml-auto">
 								<li className="nav-item">
-									<a className="nav-link" href="#footer">
+									<a className="nav-link nav-link-login" href="#footer">
 										Contact
 									</a>
 								</li>
 								<li className="nav-item">
-									<a className="nav-link" href="#testimonial">
+									<a className="nav-link nav-link-login" href="#testimonial">
 										Testimonial
 									</a>
 								</li>
 								<li className="nav-item">
-									<a className="nav-link" href="#login">
+									<a className="nav-link nav-link-login" href="#login">
 										Login
 									</a>
 								</li>
