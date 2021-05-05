@@ -32,11 +32,9 @@ export const Profile = () => {
 								<div className="panel">
 									<div className="user-heading">
 										<img
-											className="rounded"
+											className="rounded profile-img"
 											src="https://www.dzoom.org.es/wp-content/uploads/2020/02/portada-foto-perfil-redes-sociales-consejos-810x540.jpg"
 											alt=""
-											width="200px"
-											height="150px"
 										/>
 
 										<div className="texto1 mt-5 ml-4">

@@ -5,6 +5,8 @@ import { CountrySelectBirdy } from "./countrySelect";
 import { Form, Button, FormGroup, FormControl, ControlLabe, Container } from "react-bootstrap";
 import InputGroup from "react-bootstrap/InputGroup";
 
+import "../../styles/logDetails.scss";
+
 export const Logdetails = () => {
 	const { store, actions } = useContext(Context);
 	const [value, setValue] = React.useState(null);
@@ -39,14 +41,9 @@ export const Logdetails = () => {
 			<Container>
 				<div>
 					<div className="text-center mt-5" />
-					<Form.Control
-						plaintext
-						readOnly
-						defaultValue="List of common and scientific names
-                         of bird species but for the purposes of
-                         this list species are grouped into families, and
-                          families are ordered following the more traditional taxonomy."
-					/>
+					<Form.Label className="mb-4">
+						This space is for adding notes of the birds you will find across your journey.
+					</Form.Label>
 				</div>
 				<Form>
 					<Form.Group controlId="exampleForm.ControlTextarea1">
@@ -102,14 +99,13 @@ export const Logdetails = () => {
 						/>
 					</Form.Group>
 
-					<InputGroup className="mb-3">
-						<InputGroup.Prepend>
-							<InputGroup.Checkbox
-								aria-label="Checkbox for following text input"
-								onClick={e => (e.target.value === "on" ? setPrivacy(true) : setPrivacy(false))}
-							/>
-						</InputGroup.Prepend>
-						<Form.Label>Make Public</Form.Label>
+					<InputGroup className="mb-3 mr-5">
+						<InputGroup.Checkbox
+							aria-label="Checkbox for following text input"
+							onClick={e => (e.target.value === "on" ? setPrivacy(true) : setPrivacy(false))}
+						/>
+
+						<Form.Label className="ml-4 mt-2">Share with others in the community!!</Form.Label>
 					</InputGroup>
 
 					<Button
