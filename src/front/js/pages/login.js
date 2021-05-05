@@ -129,8 +129,9 @@ export const Login = () => {
 					</div>
 				</Container>
 			</section>
-			<Image className="birdsGroup" src={birdsGroup} alt="birdsGroup" />
+
 			<section id="testimonial">
+				<Image className="birdsGroup" src={birdsGroup} alt="birdsGroup" />
 				<Carousel>
 					<Carousel.Item className="carousel-item">
 						<div className="comment-card rounded">
@@ -151,8 +152,21 @@ export const Login = () => {
 								and songs of birds&quot;
 							</h2>
 							<div className="d-flex justify-content-center">
-								<Image className="testimonials-image" src={pc2} alt="woman-red" />
+								<Image className="testimonials-image" src={pc2} alt="studen-smiling" />
 								<em className="ml-3 mt-5">Sebastian Suarez / Student</em>
+							</div>
+						</div>
+					</Carousel.Item>
+
+					<Carousel.Item className="carousel-item">
+						<div className="comment-card rounded">
+							<h2 className="testimonial-text">
+								&quot;With Birdy, I can share my explorations with the birdwatchers community through
+								this social app.&quot;
+							</h2>
+							<div className="d-flex justify-content-center">
+								<Image className="testimonials-image" src={pc4} alt="blond-man" />
+								<em className="ml-3 mt-5">Hans Krugger / Chef</em>
 							</div>
 						</div>
 					</Carousel.Item>
