@@ -44,15 +44,15 @@ export const Profile = () => {
 											<p>{activeUser.email}</p>
 											<div className="social">
 												<a
-													className="fab fa-facebook fa-2x mr-2 text-decoration-none"
+													className="fab fa-facebook fa-2x mr-4 text-decoration-none"
 													href="http://www.facebook.com/"
 												/>
 												<a
-													className="fab fa-instagram fa-2x mr-2 text-decoration-none"
+													className="fab fa-instagram fa-2x mr-4 text-decoration-none"
 													href="http://www.instagram.com/"
 												/>
 												<a
-													className="fab fa-twitter fa-2x mr-2 text-decoration-none"
+													className="fab fa-twitter fa-2x text-decoration-none"
 													href="http://www.twitter.com/"
 												/>
 											</div>
