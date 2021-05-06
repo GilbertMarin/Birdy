@@ -328,15 +328,14 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 			reset_Password: (pass, token) => {
 				const store = getStore();
-				fetch(`${store.newURL}/newPassword`, {
+				fetch(`https://3001-cyan-fox-eiqb1sym.ws-us03.gitpod.io/newPassword`, {
 					method: "PUT",
 					headers: {
-						"Content-Type": "application/json",
-
-						Authorization: "Bearer " + token
+						"Content-Type": "application/json"
 					},
 					body: JSON.stringify({
-						password: pass
+						password: pass,
+						token: token
 					})
 				})
 					.then(resp => {

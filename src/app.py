@@ -361,7 +361,7 @@ def index():
     </table>
    
 </body>
-</html>""".format(link="https://3000-gray-seahorse-y9de75vx.ws-us03.gitpod.io/reset_password/"+ token)
+</html>""".format(link="https://3000-cyan-fox-eiqb1sym.ws-us03.gitpod.io/reset_password/"+ token)
 
     mail.send(msg)
 
@@ -381,19 +381,25 @@ def confirm_email(token):
     return jsonify({"email": email, "valid":True}), 200
 
 @app.route('/newPassword',methods=['PUT'])
-def newPassword(password):
-    try:
-        email = s.loads(token, salt='email-confirm', max_age=3600)
-    except SignatureExpired:
-        return jsonify({"msg": "Token no valido", "valid":False}), 401
-    user = User.query.filter_by(email=email).first
+def newPassword():
+    
     request_body = request.get_json()
+
+    token = request_body['token']
+    email = s.loads(token, salt='email-confirm', max_age=3600)
+  
+    user = User.query.filter_by(email=email).first()
+    print(user)
+
     newPass=request_body['password']
+
     if user is None:
         raise APIException('user not found', status_code=404)
     user.password=newPass
     db.session.commit()
-    return jsonify("Contraseña cambiada con exito"), 200    
+
+
+    return jsonify({"msg": "Password changed successfully"}), 200    
 
 
 # this only runs if `$ python src/main.py` is executed
