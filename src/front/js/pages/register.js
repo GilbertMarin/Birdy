@@ -1,12 +1,14 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Link, useHistory } from "react-router-dom";
-
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { Context } from "../store/appContext";
 import { Container, Form, Input, Button, Row, Col, FormGroup } from "react-bootstrap";
 import { Login } from "./login";
 
 import "../../styles/register.scss";
 
+toast.configure();
 export const Register = () => {
 	const { store, actions } = useContext(Context);
 	const [fname, setFirstName] = useState("");
@@ -19,7 +21,7 @@ export const Register = () => {
 	useEffect(() => {
 		if (store.register) {
 			console.log(store.register);
-			alert("Username was created successfully");
+			toast.success("Profile successfully created!");
 			actions.setRegister();
 			history.push("/");
 		}

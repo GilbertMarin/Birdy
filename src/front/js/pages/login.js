@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Link, useParams, useHistory } from "react-router-dom";
 import { Context } from "../store/appContext";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import {
 	Alert,
 	Container,
@@ -31,8 +33,10 @@ import pc2 from "../../img/pc2.png";
 import pc3 from "../../img/pc3.png";
 import pc4 from "../../img/pc4.png";
 
+toast.configure();
 export const Login = () => {
 	const { store, actions } = useContext(Context);
+	const [resp, setResp] = useState(true);
 	const [user, setUser] = useState("");
 	const [pass, setPass] = useState("");
 	const history = useHistory();
@@ -81,8 +85,10 @@ export const Login = () => {
 	};
 
 	const handleClick = () => {
-		if (user == "" || pass == "" || user == undefined || pass == undefined) alert("Bad email or password");
-		else actions.loginValidation(user, pass);
+		if (user == "" || pass == "" || user == undefined || pass == undefined) toast.error("Bad email or password");
+		else {
+			actions.loginValidation(user, pass);
+		}
 		// Pass login parameters to make a fetch to the back end.
 	};
 
@@ -193,7 +199,7 @@ export const Login = () => {
 								&quot;I like Birdy because is useful and easy to use.&quot;
 							</h2>
 							<div className="d-flex justify-content-center">
-								<Image className="testimonials-image" src={pc4} alt="blond-man" />
+								<Image className="testimonials-image" src={pc1} alt="blond-man" />
 								<em className="ml-3 mt-5">Karen Corrales / Singer Teacher</em>
 							</div>
 						</div>
