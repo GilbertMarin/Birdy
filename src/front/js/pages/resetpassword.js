@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Link, useParams, useHistory } from "react-router-dom";
 import { Context } from "../store/appContext";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import {
 	Container,
 	Button,
@@ -14,6 +16,7 @@ import {
 	Image
 } from "react-bootstrap";
 
+toast.configure();
 export const ResetPassword = () => {
 	const { store, actions } = useContext(Context);
 	const [pass, setPass] = useState("");
@@ -34,7 +37,7 @@ export const ResetPassword = () => {
 	const handleClick = () => {
 		actions.reset_Password(pass, token);
 		history.push("/");
-		alert("Password changed successfully");
+		toast.success("Password successfully changed!");
 	};
 
 	return (

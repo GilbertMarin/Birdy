@@ -4,9 +4,12 @@ import "bootstrap/dist/css/bootstrap.css";
 import { CountrySelectBirdy } from "./countrySelect";
 import { Form, Button, FormGroup, FormControl, ControlLabe, Container } from "react-bootstrap";
 import InputGroup from "react-bootstrap/InputGroup";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import "../../styles/logDetails.scss";
 
+toast.configure();
 export const Logdetails = () => {
 	const { store, actions } = useContext(Context);
 	const [value, setValue] = React.useState(null);
@@ -21,9 +24,9 @@ export const Logdetails = () => {
 	const handleClick = () => {
 		actions.addBirdCapture(country, birdName, localization, description, time, privacy);
 		console.log(country, birdName, localization, description, time, privacy);
-		alert("Your capture has been saved");
-		inputReset();
 
+		inputReset();
+		toast.success("Your capture has been saved!");
 		// Pass login parameters to make a fetch to the back end.
 	};
 

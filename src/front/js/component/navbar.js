@@ -19,9 +19,9 @@ export const NavbarBirdy = () => {
 	return (
 		<Navbar expand="lg" className="navbar mb-4 navbar-login">
 			<Navbar.Brand>
-				<a href="/home" className="navbar-brand">
-					<img src={birdy} className="logo d-inline-block align-top" />
-				</a>
+				<Link to="/audioGallery" className="navbar-brand">
+					<Image src={birdy} className="logo d-inline-block align-top" />
+				</Link>
 			</Navbar.Brand>
 			<Navbar.Toggle aria-controls="basic-navbar-nav" />
 			<Navbar.Collapse id="basic-navbar-nav">
