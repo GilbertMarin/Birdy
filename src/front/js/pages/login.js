@@ -87,7 +87,8 @@ export const Login = () => {
 	};
 
 	// Every time it finds a token into the storage it will redirect to /home page
-	if (store.token && store.token != "" && store.token != undefined && store.token != null) history.push("/home");
+	if (store.token && store.token != "" && store.token != undefined && store.token != null)
+		history.push("/audioGallery");
 
 	return (
 		<>

@@ -18,6 +18,8 @@ export const ResetPassword = () => {
 	const { store, actions } = useContext(Context);
 	const [pass, setPass] = useState("");
 	let { token } = useParams();
+	const history = useHistory();
+
 	console.log("estoy en resetpassword func", token);
 	useEffect(() => {
 		fetch(`${store.newURL}/confirm_email/${token}`)
@@ -28,6 +30,13 @@ export const ResetPassword = () => {
 				console.log(resp);
 			});
 	}, []);
+
+	const handleClick = () => {
+		actions.reset_Password(pass, token);
+		history.push("/");
+		alert("Password changed successfully");
+	};
+
 	return (
 		<Container>
 			<Row className="justify-content-center pt-5 mt-5 mr-1">
@@ -47,9 +56,7 @@ export const ResetPassword = () => {
 							/>
 						</FormGroup>
 						<FormGroup className="mx-sm-4 pb-3">
-							<Button
-								className="btn btn-block signin"
-								onClick={() => actions.reset_Password(pass, token)}>
+							<Button className="btn btn-block signin" onClick={() => handleClick()}>
 								Restore
 							</Button>
 						</FormGroup>
