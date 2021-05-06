@@ -105,7 +105,7 @@ export const Logdetails = () => {
 					<InputGroup className="mb-3 mr-5">
 						<InputGroup.Checkbox
 							aria-label="Checkbox for following text input"
-							onClick={e => (e.target.value === "on" ? setPrivacy(true) : setPrivacy(false))}
+							onChange={e => (e.target.checked === true ? setPrivacy(true) : setPrivacy(false))}
 						/>
 
 						<Form.Label className="ml-4 mt-2">Share with others in the community!!</Form.Label>
