@@ -326,6 +326,30 @@ const getState = ({ getStore, getActions, setStore }) => {
 				setStore({ register: false });
 			},
 
+			reset_Password: (pass, token) => {
+				const store = getStore();
+				fetch(`https://3001-cyan-fox-eiqb1sym.ws-us03.gitpod.io/newPassword`, {
+					method: "PUT",
+					headers: {
+						"Content-Type": "application/json"
+					},
+					body: JSON.stringify({
+						password: pass,
+						token: token
+					})
+				})
+					.then(resp => {
+						return resp.json();
+					})
+					.then(data => {
+						console.log("this came from password", data);
+					})
+
+					.catch(err => {
+						console.log("error", err);
+					});
+			},
+
 			getPublicBirdCaptures: () => {
 				const store = getStore();
 				const token = sessionStorage.getItem("token");
