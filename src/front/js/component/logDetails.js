@@ -105,7 +105,6 @@ export const Logdetails = () => {
 					<InputGroup className="mb-3 mr-5">
 						<InputGroup.Checkbox
 							aria-label="Checkbox for following text input"
-							checked
 							onChange={e => (e.target.checked === true ? setPrivacy(true) : setPrivacy(false))}
 						/>
 
