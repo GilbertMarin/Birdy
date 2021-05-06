@@ -361,7 +361,7 @@ def index():
     </table>
    
 </body>
-</html>""".format(link="https://3000-tan-jaguar-s53mo89o.ws-us03.gitpod.io/reset_password/"+ token)
+</html>""".format(link="https://3000-gray-seahorse-y9de75vx.ws-us03.gitpod.io/reset_password/"+ token)
 
     mail.send(msg)
 
@@ -381,10 +381,12 @@ def confirm_email(token):
     return jsonify({"email": email, "valid":True}), 200
 
 @app.route('/newPassword',methods=['PUT'])
-@jwt_required()
 def newPassword(password):
-    current_user_id = get_jwt_identity()
-    user = User.query.get(current_user_id)
+    try:
+        email = s.loads(token, salt='email-confirm', max_age=3600)
+    except SignatureExpired:
+        return jsonify({"msg": "Token no valido", "valid":False}), 401
+    user = User.query.filter_by(email=email).first
     request_body = request.get_json()
     newPass=request_body['password']
     if user is None:
