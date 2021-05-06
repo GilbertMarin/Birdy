@@ -19,7 +19,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			url: "https://www.xeno-canto.org/api/2/recordings?query=cnt%3A%22Costa%20Rica%22",
 			heroku: "https://mighty-plateau-65231.herokuapp.com/",
 			newURL: process.env.BACKEND_URL,
-			login: false,
+			login: true,
 			email: "",
 			register: false,
 			token: null,
@@ -250,7 +250,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 			loginValidation: (user, password) => {
 				const store = getStore();
-
+				setStore({ login: true });
 				fetch(`${store.newURL}/login`, {
 					method: "POST",
 					headers: {
@@ -269,8 +269,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 						return resp.json();
 					})
 					.then(data => {
-						setStore({ activeUser: data });
-						setStore({ token: data.access_token });
+						setStore({ activeUser: data, token: data.access_token });
 						sessionStorage.setItem("token", data.access_token);
 						sessionStorage.setItem("activeUser", JSON.stringify(data));
 						console.log("ActiveUser from flux", store.activeUser);
@@ -285,8 +284,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				sessionStorage.removeItem("token");
 				sessionStorage.removeItem("activeUser");
 				console.log("Loging out");
-				setStore({ token: null });
-				setStore({ activeUser: null });
+				setStore({ token: null, activeUser: null, login: false });
 			},
 
 			registerValidation: (firstname, lastname, email, password, bio) => {

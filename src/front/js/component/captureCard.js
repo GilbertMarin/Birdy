@@ -10,7 +10,7 @@ export const CaptureCard = ({ id, name, country, location, time, description, au
 	const { store, actions } = useContext(Context);
 
 	return (
-		<Card>
+		<Card className="mb-2 mr-1">
 			<Card.Header as="h5" className="d-flex justify-content-between">
 				{name}
 				<Button variant="outline-danger" onClick={() => actions.deleteBirdCapture(id)}>
